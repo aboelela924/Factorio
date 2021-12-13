@@ -1,0 +1,11 @@
+{
+    "wooden-chest":{
+        "type":"item"
+    },
+    "iron-chest":{
+        "type":"item"
+    },
+    "water":{
+        "type":"fluid"
+    }
+}
