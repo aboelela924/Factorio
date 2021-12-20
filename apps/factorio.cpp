@@ -10,7 +10,7 @@ using json = nlohmann::json;
 
 int main(int argc, char** argv){
    
-    std::ifstream i1("../jsons/example_1.json");
+    std::ifstream i1("/home/omarninach/fau/factorio/Factorio/jsons/example_1.json");
     json j1;
     i1 >> j1;
     std::cout << j1 << std::endl;

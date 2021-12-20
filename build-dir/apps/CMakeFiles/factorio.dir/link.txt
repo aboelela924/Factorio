@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/factorio.dir/factorio.cpp.o  -o factorio 
