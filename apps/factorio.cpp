@@ -29,7 +29,7 @@ int main(int argc, char** argv){
     
     Event* researchEvent = new ResearchEvent(1.5, "Space ship");
     researchEvent->run();
-    Event* buildFactoryEvent = new BuildFactoryEvent(2.5, 1, "fucker", "Mother fucker");
+    Event* buildFactoryEvent = new BuildFactoryEvent(2.5, 1, "mold", "Mold removal");
     buildFactoryEvent->run();
     Event* destoryFactoryEvent = new DestoryFactoryEvent(3.5, 1);
     destoryFactoryEvent->run();
