@@ -51,7 +51,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/omarninach/fau/factorio/Factorio
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/omarninach/fau/factorio/Factorio/build-dir
+CMAKE_BINARY_DIR = /home/omarninach/fau/factorio/Factorio
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(CMAKE_COMMAND) -E cmake_progress_start /home/omarninach/fau/factorio/Factorio/build-dir/CMakeFiles /home/omarninach/fau/factorio/Factorio/build-dir/apps/CMakeFiles/progress.marks
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(MAKE) -f CMakeFiles/Makefile2 apps/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/omarninach/fau/factorio/Factorio/build-dir/CMakeFiles 0
+	cd /home/omarninach/fau/factorio/Factorio && $(CMAKE_COMMAND) -E cmake_progress_start /home/omarninach/fau/factorio/Factorio/CMakeFiles /home/omarninach/fau/factorio/Factorio/apps/CMakeFiles/progress.marks
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f CMakeFiles/Makefile2 apps/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/omarninach/fau/factorio/Factorio/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(MAKE) -f CMakeFiles/Makefile2 apps/clean
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f CMakeFiles/Makefile2 apps/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,22 +97,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(MAKE) -f CMakeFiles/Makefile2 apps/preinstall
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f CMakeFiles/Makefile2 apps/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(MAKE) -f CMakeFiles/Makefile2 apps/preinstall
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f CMakeFiles/Makefile2 apps/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/omarninach/fau/factorio/Factorio && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 apps/CMakeFiles/factorio.dir/rule:
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(MAKE) -f CMakeFiles/Makefile2 apps/CMakeFiles/factorio.dir/rule
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f CMakeFiles/Makefile2 apps/CMakeFiles/factorio.dir/rule
 .PHONY : apps/CMakeFiles/factorio.dir/rule
 
 # Convenience name for target.
@@ -122,7 +122,7 @@ factorio: apps/CMakeFiles/factorio.dir/rule
 
 # fast build rule for target.
 factorio/fast:
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(MAKE) -f apps/CMakeFiles/factorio.dir/build.make apps/CMakeFiles/factorio.dir/build
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f apps/CMakeFiles/factorio.dir/build.make apps/CMakeFiles/factorio.dir/build
 .PHONY : factorio/fast
 
 factorio.o: factorio.cpp.o
@@ -131,7 +131,7 @@ factorio.o: factorio.cpp.o
 
 # target to build an object file
 factorio.cpp.o:
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(MAKE) -f apps/CMakeFiles/factorio.dir/build.make apps/CMakeFiles/factorio.dir/factorio.cpp.o
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f apps/CMakeFiles/factorio.dir/build.make apps/CMakeFiles/factorio.dir/factorio.cpp.o
 .PHONY : factorio.cpp.o
 
 factorio.i: factorio.cpp.i
@@ -140,7 +140,7 @@ factorio.i: factorio.cpp.i
 
 # target to preprocess a source file
 factorio.cpp.i:
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(MAKE) -f apps/CMakeFiles/factorio.dir/build.make apps/CMakeFiles/factorio.dir/factorio.cpp.i
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f apps/CMakeFiles/factorio.dir/build.make apps/CMakeFiles/factorio.dir/factorio.cpp.i
 .PHONY : factorio.cpp.i
 
 factorio.s: factorio.cpp.s
@@ -149,8 +149,35 @@ factorio.s: factorio.cpp.s
 
 # target to generate assembly for a file
 factorio.cpp.s:
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(MAKE) -f apps/CMakeFiles/factorio.dir/build.make apps/CMakeFiles/factorio.dir/factorio.cpp.s
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f apps/CMakeFiles/factorio.dir/build.make apps/CMakeFiles/factorio.dir/factorio.cpp.s
 .PHONY : factorio.cpp.s
+
+module/Date.o: module/Date.cpp.o
+
+.PHONY : module/Date.o
+
+# target to build an object file
+module/Date.cpp.o:
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f apps/CMakeFiles/factorio.dir/build.make apps/CMakeFiles/factorio.dir/module/Date.cpp.o
+.PHONY : module/Date.cpp.o
+
+module/Date.i: module/Date.cpp.i
+
+.PHONY : module/Date.i
+
+# target to preprocess a source file
+module/Date.cpp.i:
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f apps/CMakeFiles/factorio.dir/build.make apps/CMakeFiles/factorio.dir/module/Date.cpp.i
+.PHONY : module/Date.cpp.i
+
+module/Date.s: module/Date.cpp.s
+
+.PHONY : module/Date.s
+
+# target to generate assembly for a file
+module/Date.cpp.s:
+	cd /home/omarninach/fau/factorio/Factorio && $(MAKE) -f apps/CMakeFiles/factorio.dir/build.make apps/CMakeFiles/factorio.dir/module/Date.cpp.s
+.PHONY : module/Date.cpp.s
 
 # Help Target
 help:
@@ -164,6 +191,9 @@ help:
 	@echo "... factorio.o"
 	@echo "... factorio.i"
 	@echo "... factorio.s"
+	@echo "... module/Date.o"
+	@echo "... module/Date.i"
+	@echo "... module/Date.s"
 .PHONY : help
 
 
@@ -175,6 +205,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/omarninach/fau/factorio/Factorio/build-dir && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/omarninach/fau/factorio/Factorio && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

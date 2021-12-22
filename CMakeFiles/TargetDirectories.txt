@@ -1,0 +1,5 @@
+/home/omarninach/fau/factorio/Factorio/CMakeFiles/rebuild_cache.dir
+/home/omarninach/fau/factorio/Factorio/CMakeFiles/edit_cache.dir
+/home/omarninach/fau/factorio/Factorio/apps/CMakeFiles/rebuild_cache.dir
+/home/omarninach/fau/factorio/Factorio/apps/CMakeFiles/edit_cache.dir
+/home/omarninach/fau/factorio/Factorio/apps/CMakeFiles/factorio.dir

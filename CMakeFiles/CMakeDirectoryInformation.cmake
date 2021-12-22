@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/home/omarninach/fau/factorio/Factorio")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/omarninach/fau/factorio/Factorio/build-dir")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/omarninach/fau/factorio/Factorio")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)

@@ -1,4 +1,6 @@
-add_executable(factorio factorio.cpp)
+set (JHDHKD ...CPP)
+add_executable(factorio factorio.cpp module/Date.cpp)
+
 
 target_compile_features(factorio PRIVATE cxx_std_20)
 

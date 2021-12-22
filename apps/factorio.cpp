@@ -7,15 +7,35 @@
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
+#include <string>
+#include <limits.h>
+#include <unistd.h>
+#include "module/Date.h"
+
+// get the current path of this directory
+/*
+*
+*/
+std::string getexepath()
+{
+  char result[ PATH_MAX ];
+  ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
+  return std::string( result, (count > 0) ? count : 0 );
+}
+/*
+*
+*/
 
 int main(int argc, char** argv){
+    Date* dd=new Date(4,5,7);
+    std::cout<<dd->getDay()<<std::endl;
    
-    std::ifstream i1("/home/omarninach/fau/factorio/Factorio/jsons/example_1.json");
-    json j1;
-    i1 >> j1;
-    std::cout << j1 << std::endl;
-    std::cout<<std::endl;
-    std::cout << std::setw(2) << j1 << std::endl;
+    // std::ifstream i1("../../jsons/example_1.json");
+    // json j1;
+    // i1 >> j1;
+    // std::cout << j1 << std::endl;
+    // std::cout<<std::endl;
+    // std::cout << std::setw(2) << j1 << getexepath() << std::endl;
 
 //------------------------------------------------------
 //Writing to json-format

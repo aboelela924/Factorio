@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/factorio.dir/factorio.cpp.o"
+  "CMakeFiles/factorio.dir/module/Date.cpp.o"
   "factorio"
   "factorio.pdb"
 )
