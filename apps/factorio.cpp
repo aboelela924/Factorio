@@ -15,35 +15,78 @@
 
 #include <nlohmann/json.hpp>
 
+#include <string>
+#include <limits.h>
+#include <unistd.h>
+
+    std::string getexepath()
+    {
+        char result[ PATH_MAX ];
+        ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
+        return std::string( result, (count > 0) ? count : 0 );
+    }
+
+// #ifdef __linux__ 
+//     // Linux code goes here
+//     std::string getexepath()
+//     {
+//         char result[ PATH_MAX ];
+//         ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
+//         return std::string( result, (count > 0) ? count : 0 );
+//     }
+
+// #elif _WIN32
+//     // windows code goes here
+
+//     #include <Windows.h>
+//     #include <string>
+
+// std::string GetCurrentDirectory()
+// {
+// 	char buffer[MAX_PATH];
+// 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
+// 	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+	
+// 	return std::string(buffer).substr(0, pos);
+// }
+// #else
+
+// #endif
+
 using json = nlohmann::json;
 
+
+
 int main(int argc, char** argv){
-   
-    // std::ifstream i1("../../../../jsons/example_1.json");
-    // json j1;
-    // i1 >> j1;
-    // std::cout << j1 << std::endl;
-    // std::cout<<std::endl;
-    // std::cout << std::setw(2) << j1 << std::endl;
+    std::string local_path = getexepath();
+    std::string delimiter = "Factorio";
+    local_path = local_path.substr(0, local_path.find(delimiter)); // token is "scott"
+    std::string path=local_path+"/Factorio/jsons/example_1.json";
+    std::ifstream i1(path);
+    json j1;
+    i1 >> j1;
+    std::cout << j1 << std::endl;
+    std::cout<<std::endl;
+    std::cout << std::setw(2) << j1 << std::endl;
     
     /*
     AHMED CODE !
     */
-    Event* researchEvent = new ResearchEvent(1.5, "Space ship");
-    researchEvent->run();
-    Event* buildFactoryEvent = new BuildFactoryEvent(2.5, 1, "mold", "Mold removal");
-    buildFactoryEvent->run();
-    Event* destoryFactoryEvent = new DestoryFactoryEvent(3.5, 1);
-    destoryFactoryEvent->run();
-    Event* startFactoryEvent = new StartFactoryEvent(4.5, 1, "Killer recipe");
-    startFactoryEvent->run();
-    Event* stopFactoryEvent = new StopFactoryEvent(5.5, 1);
-    stopFactoryEvent->run();
-    Event* victoryEvent = new VictoryEvent(6.5);
-    victoryEvent->run();
+    // Event* researchEvent = new ResearchEvent(1.5, "Space ship");
+    // researchEvent->run();
+    // Event* buildFactoryEvent = new BuildFactoryEvent(2.5, 1, "mold", "Mold removal");
+    // buildFactoryEvent->run();
+    // Event* destoryFactoryEvent = new DestoryFactoryEvent(3.5, 1);
+    // destoryFactoryEvent->run();
+    // Event* startFactoryEvent = new StartFactoryEvent(4.5, 1, "Killer recipe");
+    // startFactoryEvent->run();
+    // Event* stopFactoryEvent = new StopFactoryEvent(5.5, 1);
+    // stopFactoryEvent->run();
+    // Event* victoryEvent = new VictoryEvent(6.5);
+    // victoryEvent->run();
 
-    int x;
-    cin >> x;
+    // int x;
+    // cin >> x;
 //------------------------------------------------------
 //Writing to json-format
 //------------------------------------------------------   
