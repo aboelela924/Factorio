@@ -1,3 +1,12 @@
+
+#include "model/event.cpp"
+#include "model/researchEvent.cpp"
+#include "model/buildFactoryEvent.cpp"
+#include "model/destoryFactoryEvent.cpp"
+#include "model/startFactoryEvent.h"
+#include "model/stopFactoryEvent.h"
+#include "model/victoryEvent.cpp"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -10,13 +19,29 @@ using json = nlohmann::json;
 
 int main(int argc, char** argv){
    
-    std::ifstream i1("../jsons/example_1.json");
+    std::ifstream i1("../../../../jsons/example_1.json");
     json j1;
     i1 >> j1;
     std::cout << j1 << std::endl;
     std::cout<<std::endl;
     std::cout << std::setw(2) << j1 << std::endl;
+    
+    
+    Event* researchEvent = new ResearchEvent(1.5, "Space ship");
+    researchEvent->run();
+    Event* buildFactoryEvent = new BuildFactoryEvent(2.5, 1, "mold", "Mold removal");
+    buildFactoryEvent->run();
+    Event* destoryFactoryEvent = new DestoryFactoryEvent(3.5, 1);
+    destoryFactoryEvent->run();
+    Event* startFactoryEvent = new StartFactoryEvent(4.5, 1, "Killer recipe");
+    startFactoryEvent->run();
+    Event* stopFactoryEvent = new StopFactoryEvent(5.5, 1);
+    stopFactoryEvent->run();
+    Event* victoryEvent = new VictoryEvent(6.5);
+    victoryEvent->run();
 
+    int x;
+    cin >> x;
 //------------------------------------------------------
 //Writing to json-format
 //------------------------------------------------------   

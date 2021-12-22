@@ -1,4 +1,4 @@
-add_executable(factorio factorio.cpp)
+add_executable(factorio factorio.cpp "model/startFactoryEvent.h" "model/stopFactoryEvent.h" "model/victoryEvent.h" "model/startFactoryEvent.cpp" "model/stopFactoryEvent.cpp")
 
 target_compile_features(factorio PRIVATE cxx_std_20)
 
