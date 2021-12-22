@@ -1,4 +1,7 @@
-add_executable(factorio factorio.cpp)
+set(SOURCES_AHMED )
+set(SOURCES_OSAMA )
+set(SOURCES_OMAR module/Date.cpp)
+add_executable(factorio factorio.cpp ${SOURCES_OMAR} ${SOURCES_AHMED} ${SOURCES_OUSAMA})
 
 target_compile_features(factorio PRIVATE cxx_std_20)
 
