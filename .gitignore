@@ -9,6 +9,8 @@ out/
 *.lo
 *.o
 *.obj
+#factorio
+factorio
 
 # Precompiled Headers
 *.gch
