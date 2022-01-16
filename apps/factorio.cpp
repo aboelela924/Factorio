@@ -6,6 +6,9 @@
 #include "model/startFactoryEvent.h"
 #include "model/stopFactoryEvent.h"
 #include "model/victoryEvent.h"
+#include "model/technology.h"
+#include "model/ingredient.h"
+
 
 #include <iostream>
 #include <fstream>
@@ -84,6 +87,15 @@ int main(int argc, char** argv){
     // stopFactoryEvent->run();
     // Event* victoryEvent = new VictoryEvent(6.5);
     // victoryEvent->run();
+
+    Technology* techno = new Technology("TechnoName");
+    std::cout<<techno->getName()<<std::endl;
+
+    Ingredient* ingr = new Ingredient("IngrName",5);
+    std::cout<<ingr->getName()<<std::endl;
+    std::cout<<ingr->getAmount()<<std::endl;
+
+    
 
     // int x;
     // cin >> x;

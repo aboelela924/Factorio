@@ -9,7 +9,14 @@ set(
     model/researchEvent.cpp
     )
 set(SOURCES_OSAMA )
-set(SOURCES_OMAR )
+set(SOURCES_OMAR
+    model/technology.cpp
+    model/prerequisite.cpp
+    model/effect.cpp
+    model/ingredient.cpp
+    model/recipe.cpp
+    model/item.cpp
+)
 add_executable(factorio factorio.cpp ${SOURCES_OMAR} ${SOURCES_AHMED} ${SOURCES_OUSAMA})
 
 target_compile_features(factorio PRIVATE cxx_std_20)
