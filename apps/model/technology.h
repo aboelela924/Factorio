@@ -1,13 +1,16 @@
+#pragma once
 #include <string>
 #include <list>
-#pragma once
+#include "prerequisite.h"
+#include "ingredient.h"
+
 
 class Technology
 {
 private:
     std::string name;
-    std::list<Prerequisite*> prerequisites;
-    std::list<Ingredient*> Ingredient;
+    // std::list<Prerequisite> prerequisites;
+    // std::list<Ingredient*> Ingredients;
     // bool enabled;
 
 public:
