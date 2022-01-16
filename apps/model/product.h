@@ -1,5 +1,6 @@
 #include <string>
 #include "item.h"
+#pragma once
 
 class Product : public Item
 {
@@ -7,6 +8,6 @@ private:
     int amount;
 
 public:
-	Item(std::string name, int amount);
+	Product(std::string name, int amount);
     int getAmount();
 };

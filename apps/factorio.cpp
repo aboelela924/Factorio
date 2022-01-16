@@ -8,6 +8,9 @@
 #include "model/victoryEvent.h"
 #include "model/technology.h"
 #include "model/ingredient.h"
+#include "model/recipe.h"
+#include "model/product.h"
+#include "model/prerequisite.h"
 
 
 #include <iostream>
@@ -94,6 +97,26 @@ int main(int argc, char** argv){
     Ingredient* ingr = new Ingredient("IngrName",5);
     std::cout<<ingr->getName()<<std::endl;
     std::cout<<ingr->getAmount()<<std::endl;
+
+    Product* prod = new Product("prodName",99);
+    std::cout<<prod->getName()<<std::endl;
+    std::cout<<prod->getAmount()<<std::endl;
+
+    Recipe* recp=new Recipe("RecipName","recipCateg",5,false);
+    recp->ingredients.push_back(ingr);
+
+    Prerequisite* prereq= new Prerequisite("prereqName",56);
+
+
+
+
+    //Recipe(std::string name, std::string categorie,int energy,bool enabled);
+
+
+
+
+
+    
 
     
 

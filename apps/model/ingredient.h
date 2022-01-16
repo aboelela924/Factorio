@@ -1,5 +1,5 @@
-#include <string>
 #include "item.h"
+#pragma once
 
 class Ingredient : public Item
 {
