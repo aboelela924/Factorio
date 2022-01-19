@@ -18,7 +18,7 @@ set(SOURCES_OMAR
     model/recipe.cpp
     model/item.cpp
 )
-add_executable(factorio factorio.cpp ${SOURCES_OMAR} ${SOURCES_AHMED} ${SOURCES_OUSAMA})
+add_executable(factorio factorio.cpp ${SOURCES_OMAR} ${SOURCES_AHMED} ${SOURCES_OUSAMA} "model/factory.h" "model/challenge.h" "model/challenge.cpp")
 
 target_compile_features(factorio PRIVATE cxx_std_20)
 

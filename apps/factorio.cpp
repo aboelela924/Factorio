@@ -11,7 +11,9 @@
 #include "model/recipe.h"
 #include "model/product.h"
 #include "model/prerequisite.h"
+#include "model/factory.cpp"
 
+#include "jsonParser.cpp"
 
 #include <iostream>
 #include <fstream>
@@ -61,20 +63,26 @@
 
 using json = nlohmann::json;
 
-
-
 int main(int argc, char** argv){
     std::string local_path = getexepath();
-    std::string delimiter = "Factorio";
+    std::string delimiter = "out";
     local_path = local_path.substr(0, local_path.find(delimiter)); // token is "scott"
     std::string path=local_path+"/Factorio/jsons/example_1.json";
-    std::ifstream i1(path);
+    std::cout << path << std::endl;
+    /*std::ifstream i1(path);
     json j1;
     i1 >> j1;
     std::cout << j1 << std::endl;
     std::cout<<std::endl;
-    std::cout << std::setw(2) << j1 << std::endl;
+    std::cout << std::setw(2) << j1 << std::endl;*/
     
+    
+
+    string challengePath = local_path + "/data/factorio-data/example-challenge.json";
+    JsonParser::readChallenge(challengePath);
+    /*string factoryPath = local_path + "/data/factorio-data/factory.json";
+    JsonParser::readFactories(factoryPath);*/
+
     /*
     AHMED CODE !
     */
@@ -91,7 +99,7 @@ int main(int argc, char** argv){
     // Event* victoryEvent = new VictoryEvent(6.5);
     // victoryEvent->run();
 
-    Technology* techno = new Technology("TechnoName");
+    /*Technology* techno = new Technology("TechnoName");
     std::cout<<techno->getName()<<std::endl;
 
     Ingredient* ingr = new Ingredient("IngrName",5);
@@ -105,9 +113,8 @@ int main(int argc, char** argv){
     Recipe* recp=new Recipe("RecipName","recipCateg",5,false);
     recp->ingredients.push_back(ingr);
 
-    Prerequisite* prereq= new Prerequisite("prereqName",56);
-
-
+    Prerequisite* prereq= new Prerequisite("prereqName",56);*/
+    
 
 
     //Recipe(std::string name, std::string categorie,int energy,bool enabled);
@@ -120,8 +127,8 @@ int main(int argc, char** argv){
 
     
 
-    // int x;
-    // cin >> x;
+    int x;
+    cin >> x;
 //------------------------------------------------------
 //Writing to json-format
 //------------------------------------------------------   
