@@ -1,3 +1,18 @@
+
+#include "model/event.h"
+#include "model/researchEvent.h"
+#include "model/buildFactoryEvent.h"
+#include "model/destoryFactoryEvent.h"
+#include "model/startFactoryEvent.h"
+#include "model/stopFactoryEvent.h"
+#include "model/victoryEvent.h"
+#include "model/technology.h"
+#include "model/ingredient.h"
+#include "model/recipe.h"
+#include "model/product.h"
+#include "model/prerequisite.h"
+
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -6,37 +21,185 @@
 
 #include <nlohmann/json.hpp>
 
-using json = nlohmann::json;
 #include <string>
 #include <limits.h>
 #include <unistd.h>
-#include "module/Date.h"
 
-// get the current path of this directory
-/*
-*
-*/
-std::string getexepath()
+    std::string getexepath()
+    {
+        char result[ PATH_MAX ];
+        ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
+        return std::string( result, (count > 0) ? count : 0 );
+    }
+
+// #ifdef __linux__ 
+//     // Linux code goes here
+//     std::string getexepath()
+//     {
+//         char result[ PATH_MAX ];
+//         ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
+//         return std::string( result, (count > 0) ? count : 0 );
+//     }
+
+// #elif _WIN32
+//     // windows code goes here
+
+//     #include <Windows.h>
+//     #include <string>
+
+// std::string GetCurrentDirectory()
+// {
+// 	char buffer[MAX_PATH];
+// 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
+// 	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+	
+// 	return std::string(buffer).substr(0, pos);
+// }
+// #else
+
+// #endif
+
+using json = nlohmann::json;
+
+int addition (int a, int b)
 {
-  char result[ PATH_MAX ];
-  ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
-  return std::string( result, (count > 0) ? count : 0 );
+  int r;
+  r=a+b;
+  return r;
 }
-/*
-*
-*/
+
+
+std::list<Item*> createItems()
+{
+    std::list<Item*> items;
+    std::string local_path = getexepath();
+    std::string delimiter = "Factorio";
+    local_path = local_path.substr(0, local_path.find(delimiter)); // token is "scott"
+    // std::string path=local_path+"/Factorio/jsons/example_1.json";
+    std::string path=local_path+"/Factorio/data/factorio-data/item.json";
+    std::ifstream i1(path);
+    json itemsFiles;
+    i1 >> itemsFiles;
+    for (const auto& item : itemsFiles.items())
+    {
+        // std::cout << "item : "<< item.key() << "\n";
+        Item* new_item =new Item(item.key());
+        items.push_back(new_item);
+        // for (const auto& val : item.value().items())
+        // {
+        //     std::cout << " type :  " << val.value() << "\n";
+        // }
+        std::cout <<"----------------------"<<std::endl;
+    }
+    return items;
+};
+
+
 
 int main(int argc, char** argv){
-    Date* dd=new Date(4,5,7);
-    std::cout<<dd->getDay()<<std::endl;
-   
-    // std::ifstream i1("../../jsons/example_1.json");
-    // json j1;
-    // i1 >> j1;
-    // std::cout << j1 << std::endl;
-    // std::cout<<std::endl;
-    // std::cout << std::setw(2) << j1 << getexepath() << std::endl;
+ 
 
+std::list<Recipe*> recipes;
+    std::string local_path = getexepath();
+    std::string delimiter = "Factorio";
+    local_path = local_path.substr(0, local_path.find(delimiter)); // token is "scott"
+    // std::string path=local_path+"/Factorio/jsons/example_1.json";
+    std::string path=local_path+"/Factorio/data/factorio-data/recipe.json";
+    std::ifstream i1(path);
+    json recipeFile;
+    i1 >> recipeFile;
+    for (const auto& item : recipeFile.items())
+    {
+        std::cout << "recipe name : "<< item.key() << "\n";
+        // std::cout<< recipeFile[item.key()]<<std::endl;
+
+        //create ingredients
+        std::cout<<"***ING__START***"<<std::endl;
+        if(recipeFile[item.key()]["ingredients"].empty()==0)
+            {
+            std::cout <<"check if empty --- > " <<recipeFile[item.key()]["ingredients"].empty()<< std::endl;
+            std::cout <<"check if empty --- > " <<recipeFile[item.key()]["ingredients"]<< std::endl;
+
+            std::cout<<"*****_*****_***"<<std::endl;
+
+            for (const auto& ingredientItem : recipeFile[item.key()]["ingredients"][0].items())
+                {
+                    std::cout << ingredientItem.key() << ingredientItem.value() << std::endl;
+                }
+            }
+        std::cout<<"***ING___END***"<<std::endl;
+
+
+
+        //create products
+
+        //finaly create Recipe
+        std::cout<< recipeFile[item.key()]["category"]<<std::endl;
+        std::cout<< recipeFile[item.key()]["enabled"]<<std::endl;
+        std::cout<< recipeFile[item.key()]["energy"]<<std::endl;
+        std::cout<< recipeFile[item.key()]["ingredients"][0]<<std::endl;
+        std::cout<< recipeFile[item.key()]["products"]<<std::endl;
+
+        // Item* new_item =new Item(item.key());
+        // items.push_back(new_item);
+        // for (const auto& val : item.value().items())
+        // {
+        //     std::cout << val.key() << " : " << val.value() << "\n";
+        // }
+        std::cout <<"----------------------"<<std::endl;
+    }
+
+
+    
+
+    
+    /*
+    AHMED CODE !
+    */
+    // Event* researchEvent = new ResearchEvent(1.5, "Space ship");
+    // researchEvent->run();
+    // Event* buildFactoryEvent = new BuildFactoryEvent(2.5, 1, "mold", "Mold removal");
+    // buildFactoryEvent->run();
+    // Event* destoryFactoryEvent = new DestoryFactoryEvent(3.5, 1);
+    // destoryFactoryEvent->run();
+    // Event* startFactoryEvent = new StartFactoryEvent(4.5, 1, "Killer recipe");
+    // startFactoryEvent->run();
+    // Event* stopFactoryEvent = new StopFactoryEvent(5.5, 1);
+    // stopFactoryEvent->run();
+    // Event* victoryEvent = new VictoryEvent(6.5);
+    // victoryEvent->run();
+
+    // Technology* techno = new Technology("TechnoName");
+    // std::cout<<techno->getName()<<std::endl;
+
+    // Ingredient* ingr = new Ingredient("IngrName",5);
+    // std::cout<<ingr->getName()<<std::endl;
+    // std::cout<<ingr->getAmount()<<std::endl;
+
+    // Product* prod = new Product("prodName",99);
+    // std::cout<<prod->getName()<<std::endl;
+    // std::cout<<prod->getAmount()<<std::endl;
+
+    // Recipe* recp=new Recipe("RecipName","recipCateg",5,false);
+    // recp->ingredients.push_back(ingr);
+
+    // Prerequisite* prereq= new Prerequisite("prereqName",56);
+
+
+
+
+    //Recipe(std::string name, std::string categorie,int energy,bool enabled);
+
+
+
+
+
+    
+
+    
+
+    // int x;
+    // cin >> x;
 //------------------------------------------------------
 //Writing to json-format
 //------------------------------------------------------   
