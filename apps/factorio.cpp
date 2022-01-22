@@ -12,7 +12,6 @@
 #include "model/product.h"
 #include "model/prerequisite.h"
 #include "model/factory.cpp"
-
 #include "jsonParser.cpp"
 
 #include <iostream>
@@ -64,24 +63,34 @@
 using json = nlohmann::json;
 
 int main(int argc, char** argv){
+
+    //Ahmed Path
     std::string local_path = getexepath();
     std::string delimiter = "out";
     local_path = local_path.substr(0, local_path.find(delimiter)); // token is "scott"
     std::string path=local_path+"/Factorio/jsons/example_1.json";
-    std::cout << path << std::endl;
-    /*std::ifstream i1(path);
-    json j1;
-    i1 >> j1;
-    std::cout << j1 << std::endl;
-    std::cout<<std::endl;
-    std::cout << std::setw(2) << j1 << std::endl;*/
-    
+    std::cout << "PATH  : "<< path << std::endl;
+
+    //Omar path
+    // std::string local_path = getexepath();
+    // std::string delimiter = "Factorio";
+    // local_path = local_path.substr(0, local_path.find(delimiter));
+    // // std::string path=local_path+"/Factorio/jsons/example_1.json";
+    // std::string path=local_path+"/Factorio/data/factorio-data/recipe.json";
+
     
 
     string challengePath = local_path + "/data/factorio-data/example-challenge.json";
-    JsonParser::readChallenge(challengePath);
+    Challenge aa=JsonParser::readChallenge(path);
     /*string factoryPath = local_path + "/data/factorio-data/factory.json";
     JsonParser::readFactories(factoryPath);*/
+
+    // std::vector<Recipe> recipes=JsonParser::readRecipe(path);
+    // for(auto & elem : recipes)
+    // {
+    //     cout<<elem.getName()<<std::endl;
+    // }
+    // return 0;
 
     /*
     AHMED CODE !
@@ -121,14 +130,8 @@ int main(int argc, char** argv){
 
 
 
-
-
+	
     
-
-    
-
-    int x;
-    cin >> x;
 //------------------------------------------------------
 //Writing to json-format
 //------------------------------------------------------   
