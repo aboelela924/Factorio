@@ -86,7 +86,7 @@ public:
         	// {
         	//     std::cout << " type :  " << val.value() << "\n";
         	// }
-        	std::cout <<"----------------------"<<endl;
+        	//std::cout <<"----------------------"<<endl;
     		}
     return items;
 	};
@@ -98,24 +98,24 @@ public:
 		json recipeFile;
 		i1 >> recipeFile;
 		for (const auto& item : recipeFile.items()){
-        std::cout << "recipe name : "<< item.key() << "\n";
+        //std::cout << "recipe name : "<< item.key() << "\n";
         // std::cout<< recipeFile[item.key()]<<std::endl;
 
         // create ingredients
-        std::cout<<"***ING__START***"<<std::endl;
+        //std::cout<<"***ING__START***"<<std::endl;
         if(recipeFile[item.key()]["ingredients"].empty()==1)
             {
             // std::cout <<"check if empty --- > " <<recipeFile[item.key()]["ingredients"].empty()<< std::endl;
-            std::cout <<"check if empty --- > " <<recipeFile[item.key()]["ingredients"]<< std::endl;
+            //std::cout <<"check if empty --- > " <<recipeFile[item.key()]["ingredients"]<< std::endl;
 
-            std::cout<<"*****_*****_***"<<std::endl;
+            //std::cout<<"*****_*****_***"<<std::endl;
 
             for (const auto& ingredientItem : recipeFile[item.key()]["ingredients"][0].items())
                 {
                     std::cout << ingredientItem.key() << ingredientItem.value() << std::endl;
                 }
             }
-        std::cout<<"***ING___END***"<<std::endl;
+        //std::cout<<"***ING___END***"<<std::endl;
 
 		for (const auto& item : recipeFile["ingredients"].items()) {
 			// std::string factoryName = item.value()["factory-name"];
@@ -123,11 +123,11 @@ public:
 			// int factoryId = item.value()["factory-id"];
 			// Factory f = Factory(factoryName, factoryType, factoryId);
 			// initialFactories.push_back(f);
-			std::cout << "Ingredient name is : " << item <<std::endl;
-			std::cout<<"/-----/-/-/-/"<<std::endl;
+			//std::cout << "Ingredient name is : " << item <<std::endl;
+			//std::cout<<"/-----/-/-/-/"<<std::endl;
 		}
 
-		std::cout<<"hohoooo : "<<recipeFile[item.key()]["ingredients"]<<std::endl;
+		//std::cout<<"hohoooo : "<<recipeFile[item.key()]["ingredients"]<<std::endl;
 
 
 
@@ -142,9 +142,51 @@ public:
         // {
         //     std::cout << val.key() << " : " << val.value() << "\n";
         // }
-        std::cout <<"----------------------"<<std::endl;
+        //std::cout <<"----------------------"<<std::endl;
 
 		}	
 		return recipes;
+	}
+
+	std::vector<Technology> static readTechnology(string path) {
+		std::ifstream ifs(path);
+		json jf;
+		ifs >> jf;
+
+		std::vector<Technology> technologies;
+
+		for (const auto& item : jf.items()) {
+			std::string name;
+			std::vector<std::string> prerequisites;
+			std::vector<Item> ingredients;
+			std::vector<std::string> effectes;
+			bool enabled;
+
+
+			name = item.key();
+			enabled = false;
+
+			for (const auto& effect : jf[name]["effects"].items()) {
+				effectes.push_back(effect.value()["recipe"]);
+			}
+
+			for (const auto& ingredient : jf[name]["ingredients"].items()) {
+				std::string itemName = ingredient.value()["name"];
+				int amount = ingredient.value()["amount"];
+				Item item = Item(itemName, amount);
+				ingredients.push_back(item);
+			}
+
+			for (const auto& technology : jf[name]["prerequisites"].items()) {
+				prerequisites.push_back(technology.value());
+			}
+
+			Technology tech = Technology(name, prerequisites, ingredients, effectes, enabled);
+			technologies.push_back(tech);
+
+		}
+
+		return technologies;
+
 	}
 };

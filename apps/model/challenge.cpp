@@ -6,3 +6,18 @@ Challenge::Challenge(std::vector<Factory> initalFactories,
 	: initalFactories(initalFactories), 
 	goalItems(goalItems),
 	initialItems(initialItems) {}
+
+std::vector<Factory> Challenge::getFactories()
+{
+	return this->initalFactories;
+}
+
+std::vector<Item> Challenge::getGoalItems()
+{
+	return this->goalItems;
+}
+
+std::vector<Item> Challenge::getInitialItems()
+{
+	return this->initialItems;
+}

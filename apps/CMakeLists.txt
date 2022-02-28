@@ -7,7 +7,7 @@ set(
     model/destoryFactoryEvent.cpp
     model/event.cpp
     model/researchEvent.cpp
-    )
+     "master.cpp")
 set(SOURCES_OSAMA )
 set(SOURCES_OMAR
     model/technology.cpp
@@ -18,7 +18,7 @@ set(SOURCES_OMAR
     model/recipe.cpp
     model/item.cpp
 )
-add_executable(factorio factorio.cpp ${SOURCES_OMAR} ${SOURCES_AHMED} ${SOURCES_OUSAMA} "model/factory.h" "model/challenge.h" "model/challenge.cpp")
+add_executable(factorio factorio.cpp ${SOURCES_OMAR} ${SOURCES_AHMED} ${SOURCES_OUSAMA} "model/factory.h" "model/challenge.h" "model/challenge.cpp" "master.h" "master.cpp")
 
 target_compile_features(factorio PRIVATE cxx_std_20)
 
