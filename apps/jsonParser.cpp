@@ -78,15 +78,10 @@ public:
 		json itemsFiles;
 		i1 >> itemsFiles;
 		for (const auto& item : itemsFiles.items()){
-			// std::cout << "item : "<< item.key() << "\n";
-			// question : diff beetwen new and without ?
-        	Item new_item =Item(item.key());
-        	items.push_back(new_item);
-        	// for (const auto& val : item.value().items())
-        	// {
-        	//     std::cout << " type :  " << val.value() << "\n";
-        	// }
-        	//std::cout <<"----------------------"<<endl;
+			std::string key = item.key();
+			std::string type = item.value()["type"];
+			Item i = Item(key, type);
+			items.push_back(i);
     		}
     return items;
 	};
@@ -97,54 +92,13 @@ public:
 		std::ifstream i1(path);
 		json recipeFile;
 		i1 >> recipeFile;
-		for (const auto& item : recipeFile.items()){
-        //std::cout << "recipe name : "<< item.key() << "\n";
-        // std::cout<< recipeFile[item.key()]<<std::endl;
+		for (const auto& recipe : recipeFile.items()) {
+			std::string name = recipe.key();
+			std::string category = recipe.value()["category"];
+			bool enabled = recipe.value()["enabled"];
+			int energy = recipe.value()["energy"];
 
-        // create ingredients
-        //std::cout<<"***ING__START***"<<std::endl;
-        if(recipeFile[item.key()]["ingredients"].empty()==1)
-            {
-            // std::cout <<"check if empty --- > " <<recipeFile[item.key()]["ingredients"].empty()<< std::endl;
-            //std::cout <<"check if empty --- > " <<recipeFile[item.key()]["ingredients"]<< std::endl;
-
-            //std::cout<<"*****_*****_***"<<std::endl;
-
-            for (const auto& ingredientItem : recipeFile[item.key()]["ingredients"][0].items())
-                {
-                    std::cout << ingredientItem.key() << ingredientItem.value() << std::endl;
-                }
-            }
-        //std::cout<<"***ING___END***"<<std::endl;
-
-		for (const auto& item : recipeFile["ingredients"].items()) {
-			// std::string factoryName = item.value()["factory-name"];
-			// std::string factoryType = item.value()["factory-type"];
-			// int factoryId = item.value()["factory-id"];
-			// Factory f = Factory(factoryName, factoryType, factoryId);
-			// initialFactories.push_back(f);
-			//std::cout << "Ingredient name is : " << item <<std::endl;
-			//std::cout<<"/-----/-/-/-/"<<std::endl;
 		}
-
-		//std::cout<<"hohoooo : "<<recipeFile[item.key()]["ingredients"]<<std::endl;
-
-
-
-        //create products
-
-        //finaly create Recipe
-
-
-        // Item* new_item =new Item(item.key());
-        // items.push_back(new_item);
-        // for (const auto& val : item.value().items())
-        // {
-        //     std::cout << val.key() << " : " << val.value() << "\n";
-        // }
-        //std::cout <<"----------------------"<<std::endl;
-
-		}	
 		return recipes;
 	}
 

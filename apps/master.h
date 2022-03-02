@@ -8,6 +8,8 @@
 class Master {
 public:
 	Master(std::string path);
+	std::vector<Recipe> getPossibleRecipes();
+	bool checkIfItemIsEnough(Item requirement, Item itemInState);
 
 private:
 	double currentTick = -1;
@@ -16,5 +18,8 @@ private:
 	std::vector<Technology> technologiesPool;
 	std::vector<Factory> factoriesPool;
 	std::vector<Item> itemsPool;
+
+	std::vector<Item> itemsState;
+
 
 };

@@ -11,10 +11,10 @@ set(
 set(SOURCES_OSAMA )
 set(SOURCES_OMAR
     model/technology.cpp
-    model/prerequisite.cpp
-    model/effect.cpp
-    model/ingredient.cpp
-    model/product.cpp
+    
+    
+    
+    
     model/recipe.cpp
     model/item.cpp
 )

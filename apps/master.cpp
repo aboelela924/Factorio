@@ -19,5 +19,27 @@ Master::Master(std::string mainPath)
 	std::string technologiesPath = mainPath + "/data/factorio-data/technology.json";
 	this->technologiesPool = JsonParser::readTechnology(technologiesPath);
 
-	std::cout << "Tech name is : " << technologiesPool.size();
+	for (Item item : challenge.getInitialItems()) {
+		this->itemsState.push_back(item);
+	}
+
+
+
+}
+
+std::vector<Recipe> Master::getPossibleRecipes()
+{
+	
+	std::vector<Recipe> possibleRecipes;
+
+	for (Recipe r : this->recipesPool) {
+
+	}
+
+	return possibleRecipes;
+}
+
+bool Master::checkIfItemIsEnough(Item requirement, Item itemInState)
+{
+	return requirement.getAmount() <= itemInState.getAmount();
 }

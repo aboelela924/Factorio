@@ -1,7 +1,6 @@
 #include <string>
-#include <list>
-#include "ingredient.h"
-#include "product.h"
+#include <vector>
+#include "item.h"
 #pragma once
 
 class Recipe
@@ -11,11 +10,17 @@ private:
     std::string categorie;
     int energy;
     bool enabled;
-
+    std::vector<Item> ingredients;
+    std::vector<Item> products;
 
 public:
-	Recipe(std::string name, std::string categorie,int energy,bool enabled);
+	Recipe( 
+        std::string name, 
+        std::string categorie,
+        int energy,
+        bool enabled,
+        std::vector<Item> ingredients,
+        std::vector<Item> products);
     std::string getName();
-    std::list<Ingredient*> ingredients;
-    std::list<Product*> products;
+    
 };
