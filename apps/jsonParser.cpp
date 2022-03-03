@@ -93,11 +93,30 @@ public:
 		json recipeFile;
 		i1 >> recipeFile;
 		for (const auto& recipe : recipeFile.items()) {
+			
 			std::string name = recipe.key();
 			std::string category = recipe.value()["category"];
 			bool enabled = recipe.value()["enabled"];
 			int energy = recipe.value()["energy"];
 
+			std::vector<Item> ingredients;
+			for (const auto& ingredient : recipe.value()["ingredients"].items()) {
+				std::string name = ingredient.value()["name"];
+				int amount = ingredient.value()["amount"];
+				Item i = Item(name, amount);
+				ingredients.push_back(i);
+			}
+
+			std::vector<Item> products;
+			for (const auto& product : recipe.value()["products"].items()) {
+				std::string name = product.value()["name"];
+				int amount = product.value()["amount"];
+				Item i = Item(name, amount);
+				products.push_back(i);
+			}
+
+			Recipe r = Recipe(name, category, energy, enabled, ingredients, products);
+			recipes.push_back(r);
 		}
 		return recipes;
 	}

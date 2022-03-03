@@ -18,3 +18,18 @@ products(products) {};
 std::string Recipe::getName() {
 	return this->name;
 }
+
+std::vector<Item> Recipe::getIngredients()
+{
+	return this->ingredients;
+}
+
+std::vector<Item> Recipe::getProducts()
+{
+	return this->products;
+}
+
+void Recipe::setEnabled(bool isEnabled)
+{
+	this->enabled = isEnabled;
+}

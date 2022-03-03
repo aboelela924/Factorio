@@ -9,7 +9,7 @@ class Master {
 public:
 	Master(std::string path);
 	std::vector<Recipe> getPossibleRecipes();
-	bool checkIfItemIsEnough(Item requirement, Item itemInState);
+	bool checkIfRequirementIsFullfilled(std::vector<Item> requirement);
 
 private:
 	double currentTick = -1;

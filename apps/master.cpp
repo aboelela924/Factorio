@@ -23,7 +23,7 @@ Master::Master(std::string mainPath)
 		this->itemsState.push_back(item);
 	}
 
-
+	this->getPossibleRecipes();
 
 }
 
@@ -33,13 +33,34 @@ std::vector<Recipe> Master::getPossibleRecipes()
 	std::vector<Recipe> possibleRecipes;
 
 	for (Recipe r : this->recipesPool) {
-
+		if (checkIfRequirementIsFullfilled(r.getIngredients())) {
+			r.setEnabled(true);
+		}
 	}
 
 	return possibleRecipes;
 }
 
-bool Master::checkIfItemIsEnough(Item requirement, Item itemInState)
+bool Master::checkIfRequirementIsFullfilled(std::vector<Item> requirements)
 {
-	return requirement.getAmount() <= itemInState.getAmount();
+	for (Item i : requirements) {
+		std::string name = i.getName();
+		auto it = find_if(this->itemsState.begin(),
+			this->itemsState.end(),
+			[&name](Item& obj) {return obj.getName() == name; });
+
+		if (it != this->itemsState.end())
+		{
+			auto index = std::distance(this->itemsState.begin(), it);
+			if (this->itemsState[index].getAmount() < i.getAmount()) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	
+
+	return true;
 }

@@ -21,6 +21,12 @@ public:
         bool enabled,
         std::vector<Item> ingredients,
         std::vector<Item> products);
+    
     std::string getName();
     
+    std::vector<Item> getIngredients();
+    std::vector<Item> getProducts();
+
+    void setEnabled(bool isEnabled);
+
 };
