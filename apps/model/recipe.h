@@ -27,6 +27,7 @@ public:
     std::vector<Item> getIngredients();
     std::vector<Item> getProducts();
 
+    bool getEnbaled();
     void setEnabled(bool isEnabled);
 
 };

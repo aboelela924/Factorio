@@ -1,25 +1,12 @@
 #pragma once
 #include <string>
-#include "model/recipe.h"
-#include "model/factory.h"
-#include "model/technology.h"
-#include "model/item.h"
+#include "state.h"
 
 class Master {
 public:
-	Master(std::string path);
-	std::vector<Recipe> getPossibleRecipes();
-	bool checkIfRequirementIsFullfilled(std::vector<Item> requirement);
+	Master();
+	~Master();
 
 private:
-	double currentTick = -1;
-
-	std::vector<Recipe> recipesPool;
-	std::vector<Technology> technologiesPool;
-	std::vector<Factory> factoriesPool;
-	std::vector<Item> itemsPool;
-
-	std::vector<Item> itemsState;
-
-
+	State* state;
 };

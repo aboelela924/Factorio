@@ -37,14 +37,10 @@ using json = nlohmann::json;
 
 int main(int argc, char** argv){
 
-    std::string local_path = getexepath();
-    std::string delimiter = "out";
-    local_path = local_path.substr(0, local_path.find(delimiter)); 
-    std::string path=local_path+"jsons/example_1.json";
-    std::cout << "PATH  : "<< path << std::endl;
+    
 
 
-    Master master = Master(local_path);
+    Master master = Master();
 
     
 

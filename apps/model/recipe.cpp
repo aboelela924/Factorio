@@ -29,6 +29,11 @@ std::vector<Item> Recipe::getProducts()
 	return this->products;
 }
 
+bool Recipe::getEnbaled()
+{
+	return this->enabled;
+}
+
 void Recipe::setEnabled(bool isEnabled)
 {
 	this->enabled = isEnabled;
