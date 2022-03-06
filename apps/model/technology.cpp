@@ -20,3 +20,23 @@ Technology::Technology(std::string name,
 std::string Technology::getName() {
 	return this->name;
 }
+
+std::vector<std::string> Technology::getPrerequisites()
+{
+	return this->prerequisites;
+}
+
+std::vector<Item> Technology::getIngredients()
+{
+	return this->ingredients;
+}
+
+std::vector<std::string> Technology::getEffects()
+{
+	return this->effectes;
+}
+
+bool Technology::getEnabled()
+{
+	return this->enabled;
+}

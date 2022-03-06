@@ -34,6 +34,8 @@ public:
 	
 
 	bool checkIfRequirementIsFullfilled(std::vector<Item> requirements);
+	bool checkIfTechnologyPrerequisitesIfFullfilled(vector<std::string> prerequisites);
+
 	std::vector<Recipe> getPossibleRecipes();
 	std::vector<Technology> getPossibleTechnology();
 

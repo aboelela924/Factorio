@@ -5,7 +5,7 @@ Master::Master()
 {
 	state = State::getInstance();
 	state->getPossibleRecipes();
-	state->getPossibleRecipes();
+	state->getPossibleTechnology();
 }
 
 Master::~Master()

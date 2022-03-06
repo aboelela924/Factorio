@@ -8,7 +8,7 @@ State::State() {
 	std::string delimiter = "out";
 	mainPath = mainPath.substr(0, mainPath.find(delimiter));
 
-	std::string challengePath = mainPath + "/data/factorio-data/example-challenge.json";
+	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-2.json";
 	Challenge challenge = JsonParser::readChallenge(challengePath);
 
 	std::string recipesPath = mainPath + "/data/factorio-data/recipe.json";
@@ -61,6 +61,30 @@ bool State::checkIfRequirementIsFullfilled(std::vector<Item> requirements)
 	return true;
 }
 
+bool State::checkIfTechnologyPrerequisitesIfFullfilled(vector<std::string> prerequisites)
+{
+	for (std::string p : prerequisites) {
+		auto it = find_if(this->technologiesPool.begin(),
+			this->technologiesPool.end(),
+			[&p](Technology& obj) {return obj.getName() == p; });
+
+		if (it != this->technologiesPool.end())
+		{
+			auto index = std::distance(this->technologiesPool.begin(), it);
+			if (!this->technologiesPool[index].getEnabled()) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
+
 std::vector<Recipe> State::getPossibleRecipes()
 {
 	std::vector<Recipe> possibleRecipes;
@@ -79,11 +103,14 @@ std::vector<Technology> State::getPossibleTechnology()
 	std::vector<Technology> possibleTechnologies;
 
 	for (Technology t : this->technologiesPool) {
-		//if(checkIfRequirementIsFullfilled())
+		if (checkIfRequirementIsFullfilled(t.getIngredients())
+			&& checkIfTechnologyPrerequisitesIfFullfilled(t.getPrerequisites())) {
+			possibleTechnologies.push_back(t);
+		}
 	}
 
 
-	return std::vector<Technology>();
+	return possibleTechnologies;
 }
 
 std::vector<Item> State::getItemsState()
