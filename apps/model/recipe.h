@@ -23,6 +23,7 @@ public:
         std::vector<Item> products);
     
     std::string getName();
+    std::string getCategory();
     
     std::vector<Item> getIngredients();
     std::vector<Item> getProducts();

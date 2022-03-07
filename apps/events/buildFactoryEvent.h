@@ -2,7 +2,10 @@
 
 
 #include "event.h"
+#include "../state.h"
+
 #include <string>
+#include <iostream>
 
 using namespace std;
 

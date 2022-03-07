@@ -25,24 +25,43 @@ private:
 	std::vector<Factory> factoriesPool;
 	std::vector<Item> itemsPool;
 
-	std::vector<Item> itemsState;
-	std::vector<Technology> techonogiesState;
-	std::vector<Factory> activeFactoriesState;
-	std::vector<Factory> starvedFactoriesState;
+	std::vector<int> idPool;
+
+	std::vector<std::shared_ptr<Item>> itemsState;
+	std::vector<std::shared_ptr<Technology>> techonogiesState;
+
+	std::vector<std::shared_ptr<Factory>> notStartedFactoriesState;
+	std::vector<std::shared_ptr<Factory>> activeFactoriesState;
+	std::vector<std::shared_ptr<Factory>> starvedFactoriesState;
+
+	
 
 public:
 	
+	double getCurrentTick();
+	void incrementTick();
 
 	bool checkIfRequirementIsFullfilled(std::vector<Item> requirements);
 	bool checkIfTechnologyPrerequisitesIfFullfilled(vector<std::string> prerequisites);
 
+	Recipe getRecipeByName(std::string name);
 	std::vector<Recipe> getPossibleRecipes();
+
+	std::shared_ptr<Item> getItemByName(std::string name);
+	std::shared_ptr<Item> getItemByNameFromItemPool(std::string name);
+
 	std::vector<Technology> getPossibleTechnology();
 
-	std::vector<Item> getItemsState();
-	std::vector<Technology> getTechonogiesState();
-	std::vector<Factory> getActiveFactoriesState();
-	std::vector<Factory> getStarvedFactoriesState();
+	std::vector<std::shared_ptr<Item>>& getItemsState();
+	std::vector<std::shared_ptr<Technology>>& getTechonogiesState();
+
+	void addBuiltFactories(Factory newFactory);
+	int getNewFactoryId();
+	std::vector<Factory> getFactoryPool();
+	std::vector<std::shared_ptr<Factory>>& getNotStartedFactories();
+	std::vector<std::shared_ptr<Factory>>& getActiveFactoriesState();
+	std::vector<std::shared_ptr<Factory>>& getStarvedFactoriesState();
+	std::shared_ptr<Factory> getFactoryById(int id);
 
 	static State* getInstance();
 	static void destory();

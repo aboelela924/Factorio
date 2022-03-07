@@ -1,12 +1,12 @@
 set(
     SOURCES_AHMED 
-    model/startFactoryEvent.cpp 
-    model/stopFactoryEvent.cpp 
-    model/victoryEvent.cpp 
-    model/buildFactoryEvent.cpp 
-    model/destoryFactoryEvent.cpp
-    model/event.cpp
-    model/researchEvent.cpp
+    events/startFactoryEvent.cpp 
+    events/stopFactoryEvent.cpp 
+    events/victoryEvent.cpp 
+    events/buildFactoryEvent.cpp 
+    events/destoryFactoryEvent.cpp
+    events/event.cpp
+    events/researchEvent.cpp
     master.cpp
     state.cpp
     utils.cpp)

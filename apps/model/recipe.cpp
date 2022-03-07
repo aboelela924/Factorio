@@ -19,6 +19,11 @@ std::string Recipe::getName() {
 	return this->name;
 }
 
+std::string Recipe::getCategory()
+{
+	return this->categorie;
+}
+
 std::vector<Item> Recipe::getIngredients()
 {
 	return this->ingredients;

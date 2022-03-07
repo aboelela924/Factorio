@@ -14,6 +14,8 @@ public:
 	Item(std::string name, int amount);
 	
 	std::string getName();
+	void decreaseAmountBy(int value);
+	void increaseAmoutnBy(int value);
 	int getAmount();
 	
 };
