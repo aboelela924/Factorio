@@ -1,7 +1,7 @@
 #include "stopFactoryEvent.h"
 
 StopFactoryEvent::StopFactoryEvent(double timestamp, int factoryId) 
-	: Event{ timestamp }, factoryId(factoryId){};
+	: FactoryEvent{ timestamp,  factoryId }{};
 
 void StopFactoryEvent::run() {
 	cout << "Start factory event with factory id: " << factoryId

@@ -7,10 +7,6 @@ Master::Master()
 	
 	state = State::getInstance();
 	
-	/*for (Recipe r : state->getPossibleRecipes()) {
-		shared_ptr<Factory> factory  = this->getFactoryForRecipe(r.getCategory());
-		start
-	}*/
 
 	for (int i = 0; i < 3; ++i) {
 		state->incrementTick();
@@ -19,9 +15,6 @@ Master::Master()
 		startFactoryEvent(factory, r);
 	}
 	
-	/*Recipe r = state->getPossibleRecipes()[0];
-	std::shared_ptr<Factory> factory = this->getFactoryForRecipe(r.getCategory());
-	startFactoryEvent(factory, r);*/
 }
 
 Master::~Master()

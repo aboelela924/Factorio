@@ -1,6 +1,6 @@
 #pragma once
 
-#include "event.h"
+#include "factoryEvent.h"
 #include "../state.h"
 
 #include <iostream>
@@ -9,10 +9,9 @@
 
 using namespace std;
 
-class StartFactoryEvent : public Event {
+class StartFactoryEvent : public FactoryEvent {
 
 private:
-	int factoryId; 
 	string recipe;
 	double timeRequired;
 

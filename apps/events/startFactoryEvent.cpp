@@ -1,7 +1,7 @@
 #include "startFactoryEvent.h"
 
 StartFactoryEvent::StartFactoryEvent(double timestamp, int factoryId, string recipe)
-	: Event{ timestamp }, factoryId(factoryId), recipe(recipe) 
+	: FactoryEvent{ timestamp, factoryId }, recipe(recipe) 
 {
 
 };

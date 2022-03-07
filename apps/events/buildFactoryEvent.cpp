@@ -3,7 +3,7 @@
 
 
 BuildFactoryEvent::BuildFactoryEvent(double timestamp, int factoryId, string factoryType, string factoryName)
-	: Event{ timestamp }, factoryId(factoryId), factoryType(factoryType), factoryName(factoryName) {};
+	: FactoryEvent{ timestamp, factoryId }, factoryType(factoryType), factoryName(factoryName) {};
 
 void BuildFactoryEvent::run() {
 	cout << "Build Factory id: " << factoryId << ", Factory type: " << factoryType
