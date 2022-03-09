@@ -40,7 +40,7 @@ State::State() {
 		}
 		f.setCraftingSpeed(this->factoriesPool[index].getCraftingSpeed());
 
-		this->notStartedFactoriesState.push_back(std::shared_ptr<Factory>(new Factory(f)));
+		this->builtFactories.push_back(std::shared_ptr<Factory>(new Factory(f)));
 	}
 
 	for (int i = 0; i < 10000; ++i) {
@@ -61,14 +61,16 @@ double State::getCurrentTick()
 {
 	return this->currentTick;
 }
+double State::getNextTick()
+{
+	
+	return this->currentTick + 1;
+}
 void State::incrementTick()
 {
-	if (this->currentTick == -1) {
-		this->currentTick = 0;
-	}
-	else {
-		this->currentTick += 60;
-	}
+	
+	this->currentTick += 1;
+	
 }
 
 
@@ -200,33 +202,33 @@ std::vector<std::shared_ptr<Technology>>& State::getTechonogiesState()
 
 void State::addBuiltFactories(Factory newFactory)
 {
-	this->notStartedFactoriesState.push_back(std::shared_ptr<Factory>(new Factory(newFactory)));
+	this->builtFactories.push_back(std::shared_ptr<Factory>(new Factory(newFactory)));
 }
 std::vector<Factory> State::getFactoryPool()
 {
 	return this->factoriesPool;
 }
-std::vector<std::shared_ptr<Factory>>& State::getActiveFactoriesState()
+std::vector<std::shared_ptr<Factory>>& State::getDoneFactories()
 {
-	return this->activeFactoriesState;
+	return this->doneFactories;
 }
-std::vector<std::shared_ptr<Factory>>& State::getStarvedFactoriesState()
+std::vector<std::shared_ptr<Factory>>& State::getStarvedFactories()
 {
-	return this->starvedFactoriesState;
+	return this->starvedFactories;
 }
 std::shared_ptr<Factory> State::getFactoryById(int id)
 {
 	
 	std::vector<shared_ptr<Factory>> allFactories = std::vector<shared_ptr<Factory>>();
 	
-	allFactories.insert(allFactories.end(), this->notStartedFactoriesState.begin(),
-		this->notStartedFactoriesState.end());
+	allFactories.insert(allFactories.end(), this->builtFactories.begin(),
+		this->builtFactories.end());
 	
-	allFactories.insert(allFactories.end(), this->activeFactoriesState.begin(),
-		this->activeFactoriesState.end());
+	allFactories.insert(allFactories.end(), this->doneFactories.begin(),
+		this->doneFactories.end());
 
-	allFactories.insert(allFactories.end(), this->starvedFactoriesState.begin(), 
-		this->starvedFactoriesState.end());
+	allFactories.insert(allFactories.end(), this->starvedFactories.begin(), 
+		this->starvedFactories.end());
 	
 	auto it = find_if(allFactories.begin(),
 		allFactories.end(),
@@ -240,9 +242,22 @@ std::shared_ptr<Factory> State::getFactoryById(int id)
 
 	return nullptr;
 }
-std::vector<std::shared_ptr<Factory>>& State::getNotStartedFactories()
+std::vector<std::shared_ptr<Factory>>& State::getCombinedFactories()
 {
-	return this->notStartedFactoriesState;
+	std::vector<std::shared_ptr<Factory>> factories = std::vector<std::shared_ptr<Factory>>();
+
+	factories.insert(factories.end(), this->builtFactories.begin(),
+		this->builtFactories.end());
+	factories.insert(factories.end(), this->doneFactories.begin(), 
+		this->doneFactories.end());
+	factories.insert(factories.end(), this->starvedFactories.begin(), 
+		this->starvedFactories.end());
+
+	return factories;
+}
+std::vector<std::shared_ptr<Factory>>& State::getBuiltFactories()
+{
+	return this->builtFactories;
 }
 int State::getNewFactoryId() {
 	std::sort(this->idPool.begin(), this->idPool.end());

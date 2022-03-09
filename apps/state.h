@@ -30,15 +30,16 @@ private:
 	std::vector<std::shared_ptr<Item>> itemsState;
 	std::vector<std::shared_ptr<Technology>> techonogiesState;
 
-	std::vector<std::shared_ptr<Factory>> notStartedFactoriesState;
-	std::vector<std::shared_ptr<Factory>> activeFactoriesState;
-	std::vector<std::shared_ptr<Factory>> starvedFactoriesState;
-
+	std::vector<std::shared_ptr<Factory>> builtFactories;
+	std::vector<std::shared_ptr<Factory>> doneFactories;
+	std::vector<std::shared_ptr<Factory>> starvedFactories;
+	std::vector<std::shared_ptr<Factory>> runningFactories;
 	
 
 public:
 	
 	double getCurrentTick();
+	double getNextTick();
 	void incrementTick();
 
 	bool checkIfRequirementIsFullfilled(std::vector<Item> requirements);
@@ -58,9 +59,10 @@ public:
 	void addBuiltFactories(Factory newFactory);
 	int getNewFactoryId();
 	std::vector<Factory> getFactoryPool();
-	std::vector<std::shared_ptr<Factory>>& getNotStartedFactories();
-	std::vector<std::shared_ptr<Factory>>& getActiveFactoriesState();
-	std::vector<std::shared_ptr<Factory>>& getStarvedFactoriesState();
+	std::vector<std::shared_ptr<Factory>>& getBuiltFactories();
+	std::vector<std::shared_ptr<Factory>>& getDoneFactories();
+	std::vector<std::shared_ptr<Factory>>& getStarvedFactories();
+	std::vector<std::shared_ptr<Factory>>& getCombinedFactories();
 	std::shared_ptr<Factory> getFactoryById(int id);
 
 	static State* getInstance();

@@ -12,15 +12,15 @@ void BuildFactoryEvent::run() {
 	State* state = State::getInstance();
 	std::shared_ptr<Factory> f;
 
-	auto it = find_if(state->getNotStartedFactories().begin(),
-		state->getNotStartedFactories().end(),
+	auto it = find_if(state->getBuiltFactories().begin(),
+		state->getBuiltFactories().end(),
 		[this](std::shared_ptr<Factory> obj) {return obj->getName() == this->factoryName; });
 
-	if (it != state->getNotStartedFactories().end()) {
+	if (it != state->getBuiltFactories().end()) {
 		
-		auto index = std::distance(state->getNotStartedFactories().begin(), it);
-		f = state->getNotStartedFactories()[index];
-		state->getNotStartedFactories().erase(state->getNotStartedFactories().begin() + index);
+		auto index = std::distance(state->getBuiltFactories().begin(), it);
+		f = state->getBuiltFactories()[index];
+		state->getBuiltFactories().erase(state->getBuiltFactories().begin() + index);
 		
 	}
 	else {

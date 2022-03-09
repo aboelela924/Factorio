@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <cmath>
 
 using namespace std;
 
@@ -13,7 +14,6 @@ class StartFactoryEvent : public FactoryEvent {
 
 private:
 	string recipe;
-	double timeRequired;
 
 public:
 
@@ -21,6 +21,6 @@ public:
 
 	void run() override;
 
-	bool isFactoryStillRunning();
+	bool isFactoryStillRunning(double currentTick, double timeRequired);
 
 };
