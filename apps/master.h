@@ -4,6 +4,7 @@
 #include <vector>
 #include <bits/stdc++.h>
 #include <map>
+#include <typeinfo>
 
 #include "state.h"
 #include "events/event.h"
@@ -14,23 +15,29 @@
 #include "events/startFactoryEvent.h"
 #include "events/stopFactoryEvent.h"
 #include "events/victoryEvent.h"
+
 #include "model/factory.h"
 
-class Master{
+#include "feedback.h"
+
+class Master : public Feedback {
 public:
 	Master();
 	~Master();
 	
-	std::shared_ptr<Factory> getFactoryForRecipe(std::string category);
-	void startFactoryEvent(std::shared_ptr<Factory> factory, Recipe recipe);
-	std::vector<Recipe>& getNewRecipes(const std::vector<Recipe>& recipes);
-	void getFactoryEventForNewRecipe(const Recipe& r);
-	void eventDone(FactoryEvent& event);
+	
+	std::vector<Recipe> getNewRecipes(const std::vector<Recipe>& recipes);
+	void getFactoryEventForNewRecipe(Recipe& r);
+	void eventDone(FactoryEvent* e) override;
 private:
 	State* state;
-	std::vector<std::shared_ptr<FactoryEvent>> activeFactoryEvents;
-	std::vector<std::shared_ptr<FactoryEvent>> starvedFactoryEvents;
-	std::map<int, std::vector<double>> factoryTimeMapping;
+	std::vector<std::shared_ptr<BuildFactoryEvent>> buildFactoryEvents;
+	std::vector<std::shared_ptr<StartFactoryEvent>> activeFactoryEvents;
+	std::vector<std::shared_ptr<StartFactoryEvent>> starvedFactoryEvents;
+	template <class T> void sortFactoryEvents(std::vector<std::shared_ptr<T>>& v);
+	void possibleCombinationOfEventsToRun();
+	bool haveEnoughResources(std::map<std::string, int> ingredientsSum);
+	void combineStarvedAndActiveEvents();
 
 	class MyHashFunction {
 	public:
@@ -46,3 +53,14 @@ private:
 	std::unordered_set<Recipe, MyHashFunction> usedRecipes;
 
 };
+
+template<class T>
+inline void Master::sortFactoryEvents(std::vector<std::shared_ptr<T>>& v)
+{
+
+	std::sort(v.begin(), v.end(),
+		[](std::shared_ptr<T>& lhs, std::shared_ptr<T>& rhs)
+		{
+			return lhs->getFactoryId() < rhs->getFactoryId();
+		});
+}

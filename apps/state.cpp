@@ -43,7 +43,7 @@ State::State() {
 		this->builtFactories.push_back(std::shared_ptr<Factory>(new Factory(f)));
 	}
 
-	for (int i = 0; i < 10000; ++i) {
+	for (int i = 1; i < 10000; ++i) {
 		idPool.push_back(i);
 	}
 }
@@ -265,7 +265,13 @@ int State::getNewFactoryId() {
 	this->idPool.erase(this->idPool.begin());
 	return id;
 }
-
+Factory State::getFactoryByName(std::string name) {
+	auto it = find_if(this->factoriesPool.begin(),
+		this->factoriesPool.end(),
+		[&name](Factory& obj) { return obj.getName() == name; });
+	int index = std::distance(this->factoriesPool.begin(), it);
+	return this->factoriesPool[index];
+}
 
 
 

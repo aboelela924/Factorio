@@ -64,6 +64,7 @@ public:
 	std::vector<std::shared_ptr<Factory>>& getStarvedFactories();
 	std::vector<std::shared_ptr<Factory>>& getCombinedFactories();
 	std::shared_ptr<Factory> getFactoryById(int id);
+	Factory getFactoryByName(std::string name);
 
 	static State* getInstance();
 	static void destory();

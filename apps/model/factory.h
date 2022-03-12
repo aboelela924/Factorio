@@ -21,10 +21,8 @@ public:
 
 	void setCraftingSpeed(double craftingSpeed);
 	void setFactoryId(int id);
+	void setFactoryType(std::string factoryType);
 
-	double getFactoryRequiredTime();
-	void increaseRequiredTimeBy(double time);
-	void decreaseRequiredTimeBy(double time);
 
 private:
 	std::string name;
@@ -32,6 +30,5 @@ private:
 	int factoryId;
 	double craftingSpeed;
 	std::vector<std::string> craftingCategories;
-	double requiredRunningTime;
 
 };

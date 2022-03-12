@@ -2,6 +2,7 @@
 
 #include "factoryEvent.h"
 #include "../state.h"
+#include "../feedback.h"
 
 #include <iostream>
 #include <string>
@@ -14,13 +15,15 @@ class StartFactoryEvent : public FactoryEvent {
 
 private:
 	string recipe;
+	Feedback* feedback;
 
 public:
 
-	StartFactoryEvent(double timestamp, int factoryId, string recipe);
+	StartFactoryEvent(Feedback* feedback, double timestamp, int factoryId, string recipe);
 
 	void run() override;
 
-	bool isFactoryStillRunning(double currentTick, double timeRequired);
-
+	std::string getRecipeName();
+	bool isFactoryStillRunning(double currentTick, int energy, double craftingSpeed);
+	bool isDone(double currentTick, int energy, double craftingSpeed);
 };

@@ -10,20 +10,10 @@ void BuildFactoryEvent::run() {
 		<< "Factory name: " << factoryName << " and timestamp: " << this->getTimestamp() << endl;
 
 	State* state = State::getInstance();
-	std::shared_ptr<Factory> f;
+	Factory f = state->getFactoryByName(factoryName);
+	f.setFactoryId(this->factoryId);
+	f.setFactoryType(this->factoryType);
+	state->addBuiltFactories(f);
 
-	auto it = find_if(state->getBuiltFactories().begin(),
-		state->getBuiltFactories().end(),
-		[this](std::shared_ptr<Factory> obj) {return obj->getName() == this->factoryName; });
-
-	if (it != state->getBuiltFactories().end()) {
-		
-		auto index = std::distance(state->getBuiltFactories().begin(), it);
-		f = state->getBuiltFactories()[index];
-		state->getBuiltFactories().erase(state->getBuiltFactories().begin() + index);
-		
-	}
-	else {
-		
-	}
+	
 }

@@ -36,8 +36,9 @@ int main(int argc, char** argv){
 
     Master master = Master();
 
-    
+    std::string x;
 
+    std::cin >> x;
     return 0;
 
 }
