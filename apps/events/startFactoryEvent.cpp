@@ -32,7 +32,6 @@ void StartFactoryEvent::run() {
 		}
 
 		this->feedback->eventDone(this);
-		this->timestamp = state->getCurrentTick();
 	}
 	else {
 		std::cout << "Current Tick: " << state->getCurrentTick() << " ,Start factory with Id: " << f->getFactoryId() << " on recicpe " << r.getName() << std::endl;
@@ -80,4 +79,9 @@ bool StartFactoryEvent::isDone(double currentTick, int energy, double craftingSp
 		return true;
 	}
 	return false;
+}
+
+void StartFactoryEvent::setStartingTimeStamp(double tick)
+{
+	this->timestamp = tick;
 }

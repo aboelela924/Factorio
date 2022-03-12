@@ -10,10 +10,13 @@ Master::Master()
 
 
 	for (int i = 0; i < 10000; ++i) {
-		std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
-		for (Recipe r : recipes) {
-			this->getFactoryEventForNewRecipe(r);
+		if (i == 0) {
+			std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
+			for (Recipe r : recipes) {
+				this->getFactoryEventForNewRecipe(r);
+			}
 		}
+		
 		
 		state->incrementTick();
 		
@@ -23,15 +26,17 @@ Master::Master()
 		}
 		this->buildFactoryEvents.clear();
 
+		if (i == 0) {
+			this->possibleCombinationOfEventsToRun();
+			this->sortFactoryEvents(this->activeFactoryEvents);
+		}
 		
-
 		for (std::shared_ptr<FactoryEvent> f : this->activeFactoryEvents) {
+			if (f == nullptr) continue;
 			f->run();
 		}
 		
-		this->combineStarvedAndActiveEvents();
-		this->sortFactoryEvents(this->activeFactoryEvents);
-		this->possibleCombinationOfEventsToRun();
+		
 
 		if (i % 60 == 0) {
 			std::cout << "Current Time Tick: " << state->getCurrentTick() << std::endl;
@@ -76,7 +81,7 @@ void Master::getFactoryEventForNewRecipe(Recipe& r)
 						std::shared_ptr<StartFactoryEvent> fe = std::shared_ptr<StartFactoryEvent>(new StartFactoryEvent(
 							std::move(this), state->getNextTick(), f->getFactoryId(), r.name
 						));
-						this->activeFactoryEvents.push_back(fe);
+						this->starvedFactoryEvents.push_back(fe);
 						return;
 					}
 				}
@@ -85,6 +90,7 @@ void Master::getFactoryEventForNewRecipe(Recipe& r)
 		}
 	}
 	
+	bool factoryFound = false;
 	for (Factory f : state->getFactoryPool()) {
 		if (f.getName() == "player") {
 			continue;
@@ -104,18 +110,46 @@ void Master::getFactoryEventForNewRecipe(Recipe& r)
 						this, state->getNextTick(), factoryId, r.getName()
 					));
 
-				this->activeFactoryEvents.push_back(startFactory);
+				this->starvedFactoryEvents.push_back(startFactory);
+				factoryFound = true;
 			}
+		}
+		if (factoryFound) {
+			break;
 		}
 	}
 	
 	
 }
 
-void Master::eventDone(FactoryEvent* event)
+void Master::eventDone(FactoryEvent* e)
 {
+	std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
+	for (Recipe r : recipes) {
+		this->getFactoryEventForNewRecipe(r);
+	}
 
-	std::cout << "Factory with id: " << event->getFactoryId() << " has finished executing" << std::endl;
+	StartFactoryEvent* startFactoryEvent = dynamic_cast<StartFactoryEvent*>(e);
+
+	int startFactoryEventIndex = -1;
+
+	for (int i = 0; i != this->activeFactoryEvents.size(); ++i) {
+		std::shared_ptr<StartFactoryEvent> oldEvent = this->activeFactoryEvents[i];
+		if (oldEvent.get() == startFactoryEvent) {
+			startFactoryEventIndex = i; 
+		}
+	}
+
+	if (startFactoryEventIndex != -1) {
+		std::vector<std::shared_ptr<StartFactoryEvent>>::iterator it =
+			this->activeFactoryEvents.begin() + startFactoryEventIndex;
+		std::shared_ptr<StartFactoryEvent> oldEvent = this->activeFactoryEvents[startFactoryEventIndex];
+		this->activeFactoryEvents.erase(it);
+		this->starvedFactoryEvents.push_back(oldEvent);
+	}
+
+
+	this->possibleCombinationOfEventsToRun();
 }
 
 
@@ -125,8 +159,10 @@ void Master::possibleCombinationOfEventsToRun()
 	
 	int lastIndex = -1;
 
-	for (int i = 0; i < this->activeFactoryEvents.size(); ++i) {
-		std::string recipeName = this->activeFactoryEvents[i]->getRecipeName();
+	this->sortFactoryEvents(this->starvedFactoryEvents);
+
+	for (int i = 0; i < this->starvedFactoryEvents.size(); ++i) {
+		std::string recipeName = this->starvedFactoryEvents[i]->getRecipeName();
 		for (Item item : this->state->getRecipeByName(recipeName).getIngredients()) {
 			if (ingredients.find(item.getName()) == ingredients.end()) {
 				ingredients[item.getName()] = item.getAmount();
@@ -137,16 +173,20 @@ void Master::possibleCombinationOfEventsToRun()
 		}
 
 		if (!haveEnoughResources(ingredients)) {
-			lastIndex = i;
+			lastIndex = i-1;
 			break;
 		}
 	}
 	if (lastIndex != -1) {
-		auto it = this->activeFactoryEvents.begin() + lastIndex ;
-		this->starvedFactoryEvents.insert(this->starvedFactoryEvents.end(),
-			it, this->activeFactoryEvents.end());
+		auto it = this->starvedFactoryEvents.begin() + lastIndex ;
 
-		this->activeFactoryEvents.erase(it, this->activeFactoryEvents.end());
+		for (auto newIt = this->starvedFactoryEvents.begin(); newIt != it; ++newIt) {
+			(*newIt)->setStartingTimeStamp(state->getNextTick());
+		}
+		this->activeFactoryEvents.insert(this->activeFactoryEvents.end(),
+			this->starvedFactoryEvents.begin(), it);
+
+		this->starvedFactoryEvents.erase(this->starvedFactoryEvents.begin(), it);
 	}
 	
 }

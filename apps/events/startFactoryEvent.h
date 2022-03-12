@@ -26,4 +26,5 @@ public:
 	std::string getRecipeName();
 	bool isFactoryStillRunning(double currentTick, int energy, double craftingSpeed);
 	bool isDone(double currentTick, int energy, double craftingSpeed);
+	void setStartingTimeStamp(double tick);
 };
