@@ -23,6 +23,8 @@ State::State() {
 	std::string technologiesPath = mainPath + "/data/factorio-data/technology.json";
 	this->technologiesPool = JsonParser::readTechnology(technologiesPath);
 
+	this->backtrackRecipesForGoalItem(challenge, recipesPath, technologiesPath);
+
 	for (Item item : challenge.getInitialItems()) {
 		this->itemsState.push_back(std::shared_ptr<Item>(new Item(item)));
 	}
@@ -73,7 +75,101 @@ void State::incrementTick()
 	
 }
 
+void State::backtrackRecipesForGoalItem(Challenge& c, 
+	std::string pathToRecipes, 
+	std::string pathToTechnologies)
+{
 
+	std::vector<Recipe> smallRecipePool;
+	std::vector<Technology> smallTechnologyPool;
+	std::unordered_set<std::string> usedRecipesNames;
+	std::unordered_set<std::string> usedTechnologiesNames;
+
+	for (Item goal : c.getGoalItems()) {
+		getParent(goal, goal.getAmount(), smallRecipePool,
+			smallTechnologyPool, usedRecipesNames, 
+			usedTechnologiesNames);
+
+		if (this->itemAmount.find(goal.getName()) == this->itemAmount.end()) {
+			this->itemAmount[goal.getName()] = goal.getAmount();
+		}
+		else {
+			this->itemAmount[goal.getName()] += goal.getAmount();
+		}
+	}
+
+	//std::cout << "Small Recipes Pool size: " << smallRecipePool.size() << std::endl;
+
+	this->recipesPool = smallRecipePool;
+	this->technologiesPool = technologiesPool;
+
+}
+
+void State::getParent(Item& item, int factor,  
+	std::vector<Recipe>& smallRecipePool, 
+	std::vector<Technology>& smallTechnologyPool, 
+	std::unordered_set<std::string>& usedRecipesNames, 
+	std::unordered_set<std::string>& usedTechnologiesNames)
+{
+
+	
+
+	Recipe r = this->getRecipeByName(item.getName());
+	for (Item i : r.getIngredients()) {
+		int newFactor = factor * i.getAmount();
+		getParent(i, newFactor, smallRecipePool,
+			smallTechnologyPool, usedRecipesNames,
+			usedTechnologiesNames);
+
+		if (this->itemAmount.find(i.getName()) == this->itemAmount.end()) {
+			this->itemAmount[i.getName()] = newFactor ;
+		}
+		else {
+			this->itemAmount[i.getName()] += newFactor;
+		}
+	}
+
+	if (!r.getEnbaled()) {
+		Technology t = getTechnologyForRecipe(r.getName());
+		for (Item i : t.getIngredients()) {
+			getParent(i, i.getAmount(), smallRecipePool,
+				smallTechnologyPool, usedRecipesNames,
+				usedTechnologiesNames);
+
+			if (this->itemAmount.find(i.getName()) == this->itemAmount.end()) {
+				this->itemAmount[i.getName()] = i.getAmount();
+			}
+			else {
+				this->itemAmount[i.getName()] += i.getAmount();
+			}
+		}
+
+		if (usedTechnologiesNames.find(t.getName()) != usedTechnologiesNames.end()) {
+			smallTechnologyPool.push_back(t);
+			usedTechnologiesNames.insert(t.getName());
+		}
+	}
+
+	if (usedRecipesNames.find(r.getName()) == usedRecipesNames.end()) {
+		smallRecipePool.push_back(r);
+		usedRecipesNames.insert(r.getName());
+	}
+}
+
+Technology& State::getTechnologyForRecipe(std::string name) {
+	auto it = find_if(this->technologiesPool.begin(),
+		this->technologiesPool.end(),
+		[&name](Technology t) {
+			for (std::string recipeNameToUnlock : t.getEffects()) {
+				if (recipeNameToUnlock == name) {
+					return true;
+				}
+			}
+			return false;
+		});
+	int index = std::distance(this->technologiesPool.begin(), it);
+	return this->technologiesPool[index];
+}
 
 bool State::checkIfRequirementIsFullfilled(std::vector<Item> requirements)
 {
@@ -130,14 +226,6 @@ Recipe State::getRecipeByName(std::string name)
 
 	auto index = std::distance(this->recipesPool.begin(), it);
 	return this->recipesPool[index];
-
-	/*if (it != this->recipesPool.end())
-	{
-		auto index = std::distance(this->recipesPool.begin(), it);
-		return this->recipesPool[index];
-	}
-
-	return null;*/
 }
 std::shared_ptr<Item> State::getItemByName(std::string name)
 {

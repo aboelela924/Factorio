@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <unordered_set>
+#include <map>
 
 #include "model/recipe.h"
 #include "model/factory.h"
@@ -35,12 +37,25 @@ private:
 	std::vector<std::shared_ptr<Factory>> starvedFactories;
 	std::vector<std::shared_ptr<Factory>> runningFactories;
 	
+	std::map<std::string, int> itemAmount;
 
 public:
 	
 	double getCurrentTick();
 	double getNextTick();
 	void incrementTick();
+
+	
+	void backtrackRecipesForGoalItem(Challenge& c, 
+		std::string pathToRecipes, 
+		std::string pathToTechnologies);
+	void getParent(Item& item, int factor, 
+		std::vector<Recipe>& smallRecipePool, 
+		std::vector<Technology>& samllTechnologyPool,
+		std::unordered_set<std::string>& usedRecipesNames,
+		std::unordered_set<std::string>& usedTechnologiesNames);
+	Technology& getTechnologyForRecipe(std::string name);
+
 
 	bool checkIfRequirementIsFullfilled(std::vector<Item> requirements);
 	bool checkIfTechnologyPrerequisitesIfFullfilled(vector<std::string> prerequisites);
