@@ -17,7 +17,6 @@ void StartFactoryEvent::run() {
 		//std::cout << "Current Tick: " << state->getCurrentTick() << " ,Working on factory " << f->getFactoryId() << " on recicpe " << r.getName() << std::endl;
 	}
 	else if (this->isDone(state->getCurrentTick(), r.getEnergy(), f->getCraftingSpeed())) {
-		this->feedback->runningProjectIds.erase(factoryId);
 		
 		for (Item i : r.getProducts()) {
 			std::shared_ptr<Item> item_ptr = state->getItemByName(i.getName());
@@ -34,23 +33,13 @@ void StartFactoryEvent::run() {
 		this->feedback->eventDone(this);
 	}
 	else {
-		std::cout << "Current Tick: " << state->getCurrentTick() << " ,Start factory with Id: " << f->getFactoryId() << " on recicpe " << r.getName() << std::endl;
-
-
+		
 		for (Item i : r.getIngredients()) {
 			std::shared_ptr<Item> item_ptr = state->getItemByName(i.getName());
 			item_ptr->decreaseAmountBy(i.getAmount());
 		}
 
-		feedback->factoryTimeMapping[factoryId].push_back(r.getEnergy());
-		for (Item i : r.getIngredients()) {
-			state->getItemByName(i.getName())->decreaseAmountBy(i.getAmount());
-		}
 	}
-
-	
-	
-
 
 }
 

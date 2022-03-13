@@ -8,7 +8,7 @@ State::State() {
 	std::string delimiter = "out";
 	mainPath = mainPath.substr(0, mainPath.find(delimiter));
 
-	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-2.json";
+	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-3.json";
 	Challenge challenge = JsonParser::readChallenge(challengePath);
 
 	std::string recipesPath = mainPath + "/data/factorio-data/recipe.json";

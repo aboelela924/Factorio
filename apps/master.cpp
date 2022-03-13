@@ -9,13 +9,16 @@ Master::Master()
 	
 
 
-	for (int i = 0; i < 10000; ++i) {
-		if (i == 0) {
-			std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
-			for (Recipe r : recipes) {
-				this->getFactoryEventForNewRecipe(r);
-			}
+	for (int i = 0; i < 100000; ++i) {
+		
+
+	
+
+		std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
+		for (Recipe r : recipes) {
+			this->getFactoryEventForNewRecipe(r);
 		}
+		
 		
 		
 		state->incrementTick();
@@ -38,7 +41,7 @@ Master::Master()
 		
 		
 
-		if (i % 60 == 0) {
+		if (i % 10 == 0) {
 			std::cout << "Current Time Tick: " << state->getCurrentTick() << std::endl;
 			for (std::shared_ptr<Item> i : state->getItemsState()) {
 				std::cout << "Item Name: " << i->getName() << ", Amount: " << i->getAmount() << std::endl;
@@ -75,18 +78,15 @@ void Master::getFactoryEventForNewRecipe(Recipe& r)
 	
 	if (!state->getBuiltFactories().empty()) {
 		for (std::shared_ptr<Factory> f : state->getBuiltFactories()) {
-			if (this->runningProjectIds.find(f->getFactoryId()) == this->runningProjectIds.end()) {
-				for (std::string c : f->getCraftingCategories()) {
-					if (c == r.categorie) {
-						std::shared_ptr<StartFactoryEvent> fe = std::shared_ptr<StartFactoryEvent>(new StartFactoryEvent(
-							std::move(this), state->getNextTick(), f->getFactoryId(), r.name
-						));
-						this->starvedFactoryEvents.push_back(fe);
-						return;
-					}
+			for (std::string c : f->getCraftingCategories()) {
+				if (c == r.categorie) {
+					std::shared_ptr<StartFactoryEvent> fe = std::shared_ptr<StartFactoryEvent>(new StartFactoryEvent(
+						this, state->getNextTick(), f->getFactoryId(), r.name
+					));
+					this->starvedFactoryEvents.push_back(fe);
+					return;
 				}
 			}
-			
 		}
 	}
 	
@@ -171,14 +171,14 @@ void Master::possibleCombinationOfEventsToRun()
 				ingredients[item.getName()] += item.getAmount();
 			}
 		}
-
+		lastIndex = i ;
 		if (!haveEnoughResources(ingredients)) {
-			lastIndex = i-1;
+			lastIndex = i - 1;
 			break;
 		}
 	}
 	if (lastIndex != -1) {
-		auto it = this->starvedFactoryEvents.begin() + lastIndex ;
+		auto it = this->starvedFactoryEvents.begin() + lastIndex + 1;
 
 		for (auto newIt = this->starvedFactoryEvents.begin(); newIt != it; ++newIt) {
 			(*newIt)->setStartingTimeStamp(state->getNextTick());
@@ -187,6 +187,15 @@ void Master::possibleCombinationOfEventsToRun()
 			this->starvedFactoryEvents.begin(), it);
 
 		this->starvedFactoryEvents.erase(this->starvedFactoryEvents.begin(), it);
+	}
+	if(areAllIngredientsEmpty()) {
+		for (auto newIt = this->starvedFactoryEvents.begin(); 
+			newIt != this->starvedFactoryEvents.end(); ++newIt) {
+			(*newIt)->setStartingTimeStamp(state->getNextTick());
+		}
+		this->activeFactoryEvents.insert(this->activeFactoryEvents.end(),
+			this->starvedFactoryEvents.begin(), this->starvedFactoryEvents.end());
+		this->starvedFactoryEvents.clear();
 	}
 	
 }
@@ -206,16 +215,18 @@ bool Master::haveEnoughResources(std::map<std::string, int> ingredientsSum)
 	return true;
 }
 
-void Master::combineStarvedAndActiveEvents()
+bool Master::areAllIngredientsEmpty()
 {
-	this->activeFactoryEvents.insert(
-		this->activeFactoryEvents.end(), this->starvedFactoryEvents.begin(),
-		this->starvedFactoryEvents.end()
-	);
-
-	this->starvedFactoryEvents.clear();
-
+	for (std::shared_ptr<StartFactoryEvent> factoryEvent : this->starvedFactoryEvents) {
+		std::string recipeName = factoryEvent->getRecipeName();
+		if (this->state->getRecipeByName(recipeName).getIngredients().size() != 0) {
+			return false;
+		}
+	}
+	return true;
 }
+
+
 
 
 
