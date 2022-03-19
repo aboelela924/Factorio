@@ -1,16 +1,18 @@
 #pragma once
 
 
-#include "event.h"
+#include "factoryEvent.h"
+#include "../state.h"
+
 #include <string>
+#include <iostream>
 
 using namespace std;
 
 
-class BuildFactoryEvent : public Event {
+class BuildFactoryEvent : public FactoryEvent {
 
 private:
-	int factoryId;
 	string factoryType;
 	string factoryName;
 

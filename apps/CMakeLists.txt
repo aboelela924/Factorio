@@ -1,12 +1,12 @@
 set(
     SOURCES_AHMED 
-    model/startFactoryEvent.cpp 
-    model/stopFactoryEvent.cpp 
-    model/victoryEvent.cpp 
-    model/buildFactoryEvent.cpp 
-    model/destoryFactoryEvent.cpp
-    model/event.cpp
-    model/researchEvent.cpp
+    events/startFactoryEvent.cpp 
+    events/stopFactoryEvent.cpp 
+    events/victoryEvent.cpp 
+    events/buildFactoryEvent.cpp 
+    events/destoryFactoryEvent.cpp
+    events/event.cpp
+    events/researchEvent.cpp
     master.cpp
     state.cpp
     utils.cpp)
@@ -20,7 +20,7 @@ set(SOURCES_OMAR
     model/recipe.cpp
     model/item.cpp
 )
-add_executable(factorio factorio.cpp ${SOURCES_OMAR} ${SOURCES_AHMED} ${SOURCES_OUSAMA} "model/factory.h" "model/challenge.h" "model/challenge.cpp" "master.h" "master.cpp" "state.h"  "jsonParser.h")
+add_executable(factorio factorio.cpp ${SOURCES_OMAR} ${SOURCES_AHMED} ${SOURCES_OUSAMA} "model/factory.h" "model/challenge.h" "model/challenge.cpp" "master.h" "master.cpp" "state.h"  "jsonParser.h" "events/factoryEvent.h" "events/factoryEvent.cpp" "feedback.h"  "feedback.cpp")
 
 target_compile_features(factorio PRIVATE cxx_std_20)
 

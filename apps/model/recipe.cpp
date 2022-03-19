@@ -13,10 +13,28 @@ categorie(categorie),
 energy(energy),
 enabled(enabled),
 ingredients(ingredients), 
-products(products) {};
+products(products) {}
+
+
+bool Recipe::operator==(const Recipe r) const
+{
+	return r.name == this->name;
+}
+
+
 
 std::string Recipe::getName() {
 	return this->name;
+}
+
+std::string Recipe::getCategory()
+{
+	return this->categorie;
+}
+
+int Recipe::getEnergy()
+{
+	return this->energy;
 }
 
 std::vector<Item> Recipe::getIngredients()

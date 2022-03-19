@@ -1,6 +1,5 @@
 #pragma once
 
-
 class Event {
 
 protected:
@@ -9,7 +8,6 @@ protected:
 public:
 
 	Event(double timestamp) ;
-	//: timestamp(timestampe) {}
 	virtual void run() = 0;
 
 	double getTimestamp();

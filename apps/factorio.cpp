@@ -1,11 +1,5 @@
 
-#include "model/event.h"
-#include "model/researchEvent.h"
-#include "model/buildFactoryEvent.h"
-#include "model/destoryFactoryEvent.h"
-#include "model/startFactoryEvent.h"
-#include "model/stopFactoryEvent.h"
-#include "model/victoryEvent.h"
+
 #include "model/technology.h"
 #include "model/recipe.h"
 #include "model/factory.cpp"
@@ -42,8 +36,9 @@ int main(int argc, char** argv){
 
     Master master = Master();
 
-    
+    std::string x;
 
+    std::cin >> x;
     return 0;
 
 }

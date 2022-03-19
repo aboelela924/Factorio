@@ -11,6 +11,16 @@ std::string Item::getName() {
 	return this->name;
 }
 
+void Item::decreaseAmountBy(int value)
+{
+	this->amount -= value;
+}
+
+void Item::increaseAmoutnBy(int value)
+{
+	this->amount += value;
+}
+
 int Item::getAmount()
 {
 	return this->amount;

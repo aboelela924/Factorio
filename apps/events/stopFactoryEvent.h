@@ -1,14 +1,14 @@
 #pragma once
 
-#include "event.h"
+#include "factoryEvent.h"
 #include <iostream>
 
 using namespace std;
 
 
-class StopFactoryEvent : public Event {
+class StopFactoryEvent : public FactoryEvent {
 private:
-	int factoryId;
+	
 
 public:
 
