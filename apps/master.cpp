@@ -7,7 +7,7 @@ Master::Master()
 	state = State::getInstance();
 	
 
-	for (int i = 0; i < 100000; ++i) {
+	for (int i = 0; i < 600; ++i) {
 
 		std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
 		for (Recipe r : recipes) {
@@ -80,6 +80,8 @@ void Master::getFactoryEventForNewRecipe(Recipe& r)
 						this, state->getNextTick(), f->getFactoryId(), r.name
 					));
 					this->starvedFactoryEvents.push_back(fe);
+					state->moveFactory(f->getFactoryId(),
+						state->getBuiltFactories(), state->getStarvedFactories());
 					return;
 				}
 			}
@@ -94,6 +96,9 @@ void Master::getFactoryEventForNewRecipe(Recipe& r)
 		for (std::string factoryCategory : f.getCraftingCategories()) {
 			if (factoryCategory == r.getCategory()) {
 				int factoryId = state->getNewFactoryId();
+				f.setFactoryId(factoryId);
+				std::shared_ptr<Factory> factory = std::shared_ptr<Factory>(new Factory(f));
+
 				std::shared_ptr<BuildFactoryEvent>  buildFactory =
 					std::shared_ptr<BuildFactoryEvent>(new BuildFactoryEvent(
 						state->getNextTick(), factoryId, f.getFactoryType(), f.getName()
@@ -107,6 +112,7 @@ void Master::getFactoryEventForNewRecipe(Recipe& r)
 					));
 
 				this->starvedFactoryEvents.push_back(startFactory);
+				state->addStarvedFactory(factory);
 				factoryFound = true;
 			}
 		}
@@ -136,6 +142,8 @@ void Master::eventDone(FactoryEvent* e)
 		std::vector<std::shared_ptr<StartFactoryEvent>>::iterator it =
 			this->activeFactoryEvents.begin() + startFactoryEventIndex;
 		std::shared_ptr<StartFactoryEvent> oldEvent = this->activeFactoryEvents[startFactoryEventIndex];
+		state->moveFactory(oldEvent->getFactoryId(),
+			state->getRunningFactories(), state->getStarvedFactories());
 		this->activeFactoryEvents.erase(it);
 		this->starvedFactoryEvents.push_back(oldEvent);
 	}
@@ -155,7 +163,7 @@ void Master::possibleCombinationOfEventsToRun()
 
 	shuffle(this->starvedFactoryEvents.begin(), this->starvedFactoryEvents.end(), std::default_random_engine(seed));
 
-	//this->sortFactoryEvents(this->starvedFactoryEvents);
+	
 
 	for (int i = 0; i < this->starvedFactoryEvents.size(); ++i) {
 		std::string recipeName = this->starvedFactoryEvents[i]->getRecipeName();
@@ -174,15 +182,31 @@ void Master::possibleCombinationOfEventsToRun()
 		}
 	}
 	if (lastIndex != -1) {
-		auto it = this->starvedFactoryEvents.begin() + lastIndex +1;
+		auto it = this->starvedFactoryEvents.begin() + lastIndex + 1;
 
 		for (auto newIt = this->starvedFactoryEvents.begin(); newIt != it; ++newIt) {
 			(*newIt)->setStartingTimeStamp(state->getNextTick());
 		}
+		
+		int index = std::distance(this->starvedFactoryEvents.begin(), it);
+		for (int i = 0; i < index; ++i) {
+			state->moveFactory(this->starvedFactoryEvents[i]->getFactoryId(),
+				state->getStarvedFactories(), 
+				state->getRunningFactories()
+			);
+		}
+		
 		this->activeFactoryEvents.insert(this->activeFactoryEvents.end(),
 			this->starvedFactoryEvents.begin(), it);
 
 		this->starvedFactoryEvents.erase(this->starvedFactoryEvents.begin(), it);
+
+
+		
+
+
+		
+		
 	}
 	
 }
