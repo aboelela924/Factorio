@@ -7,7 +7,7 @@ Master::Master()
 	state = State::getInstance();
 	
 
-	for (int i = 0; i < 600; ++i) {
+	for (int i = 0; i < 61000; ++i) {
 
 		std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
 		for (Recipe r : recipes) {
