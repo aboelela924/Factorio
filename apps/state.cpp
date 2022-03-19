@@ -75,6 +75,25 @@ void State::incrementTick()
 	
 }
 
+void State::addItemToAccumlationMap(std::string name, int amount)
+{
+	if (this->accumlatedItemGeneration.find(name) == this->accumlatedItemGeneration.end()) {
+		this->accumlatedItemGeneration[name] = amount;
+	}
+	else {
+		this->accumlatedItemGeneration[name] += amount;
+	}
+
+}
+
+int State::getItemAccumlatedAmount(std::string name)
+{
+	if (this->accumlatedItemGeneration.find(name) != this->accumlatedItemGeneration.end()) {
+		return this->accumlatedItemGeneration[name];
+	}
+	return 0;
+}
+
 void State::backtrackRecipesForGoalItem(Challenge& c, 
 	std::string pathToRecipes, 
 	std::string pathToTechnologies)
@@ -168,6 +187,15 @@ Technology& State::getTechnologyForRecipe(std::string name) {
 		});
 	int index = std::distance(this->technologiesPool.begin(), it);
 	return this->technologiesPool[index];
+}
+
+int State::getItemAmount(std::string itemName)
+{
+	if (this->itemAmount.find(itemName) != this->itemAmount.end()) {
+		return this->itemAmount[itemName];
+	}
+
+	return 0;
 }
 
 bool State::checkIfRequirementIsFullfilled(std::vector<Item> requirements)

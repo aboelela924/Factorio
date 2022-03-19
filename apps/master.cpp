@@ -120,10 +120,6 @@ void Master::getFactoryEventForNewRecipe(Recipe& r)
 
 void Master::eventDone(FactoryEvent* e)
 {
-	std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
-	for (Recipe r : recipes) {
-		this->getFactoryEventForNewRecipe(r);
-	}
 
 	StartFactoryEvent* startFactoryEvent = dynamic_cast<StartFactoryEvent*>(e);
 
@@ -144,7 +140,7 @@ void Master::eventDone(FactoryEvent* e)
 		this->starvedFactoryEvents.push_back(oldEvent);
 	}
 
-
+	this->checkForFactoryToStop(e);
 	
 }
 
@@ -204,6 +200,41 @@ bool Master::haveEnoughResources(std::map<std::string, int> ingredientsSum)
 		}
 	}
 	return true;
+}
+
+void Master::checkForFactoryToStop(FactoryEvent* e)
+{
+
+	StartFactoryEvent* startFactoryEvent = dynamic_cast<StartFactoryEvent*>(e);
+	std::string recipeName = startFactoryEvent->getRecipeName();
+
+	Recipe r = state->getRecipeByName(recipeName);
+	
+	bool isDone = true;
+
+	for (Item i : r.getProducts()) {
+		if (state->getItemAccumlatedAmount(i.getName())  < state->getItemAmount(i.getName())) {
+			isDone = false;
+		}
+	}
+
+	if (isDone) {
+
+		auto it = find_if(this->starvedFactoryEvents.begin(),
+			this->starvedFactoryEvents.end(),
+			[&startFactoryEvent](std::shared_ptr<StartFactoryEvent> e) { return e.get() == startFactoryEvent; });
+
+		if (it != this->starvedFactoryEvents.end()) {
+			this->starvedFactoryEvents.erase(it);
+		}
+
+		StopFactoryEvent stopFactory = StopFactoryEvent(state->getCurrentTick(), e->getFactoryId());
+		stopFactory.run();
+		DestoryFactoryEvent destoryFactory = DestoryFactoryEvent(state->getCurrentTick(), e->getFactoryId());
+		destoryFactory.run();
+
+	}
+
 }
 
 

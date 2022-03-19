@@ -28,6 +28,7 @@ void StartFactoryEvent::run() {
 				item_ptr->increaseAmoutnBy(i.getAmount());
 				state->getItemsState().push_back(item_ptr);
 			}
+			state->addItemToAccumlationMap(i.getName(), i.getAmount());
 		}
 
 		this->feedback->eventDone(this);

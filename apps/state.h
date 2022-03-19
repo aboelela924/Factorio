@@ -29,7 +29,7 @@ private:
 
 	std::vector<int> idPool;
 	
-
+	std::map<std::string, int> accumlatedItemGeneration;
 	std::vector<std::shared_ptr<Item>> itemsState;
 	std::vector<std::shared_ptr<Technology>> techonogiesState;
 
@@ -48,6 +48,9 @@ public:
 	void incrementTick();
 
 	
+	void addItemToAccumlationMap(std::string name, int amount);
+	int getItemAccumlatedAmount(std::string name);
+
 	void backtrackRecipesForGoalItem(Challenge& c, 
 		std::string pathToRecipes, 
 		std::string pathToTechnologies);
@@ -57,7 +60,7 @@ public:
 		std::unordered_set<std::string>& usedRecipesNames,
 		std::unordered_set<std::string>& usedTechnologiesNames);
 	Technology& getTechnologyForRecipe(std::string name);
-
+	int getItemAmount(std::string itemName);
 
 	bool checkIfRequirementIsFullfilled(std::vector<Item> requirements);
 	bool checkIfTechnologyPrerequisitesIfFullfilled(vector<std::string> prerequisites);
