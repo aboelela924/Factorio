@@ -4,35 +4,31 @@
 Master::Master()
 {
 	std::vector<Event> events;
-	
 	state = State::getInstance();
 	
 
-
 	for (int i = 0; i < 100000; ++i) {
-		
-
-	
 
 		std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
 		for (Recipe r : recipes) {
 			this->getFactoryEventForNewRecipe(r);
 		}
-		
-		
-		
+		this->possibleCombinationOfEventsToRun();
+		this->sortFactoryEvents(this->activeFactoryEvents); 
+
 		state->incrementTick();
+
 		
+		
+
 		this->sortFactoryEvents(this->buildFactoryEvents);
 		for (std::shared_ptr<BuildFactoryEvent> f : this->buildFactoryEvents) {
 			f->run();
 		}
 		this->buildFactoryEvents.clear();
 
-		if (i == 0) {
-			this->possibleCombinationOfEventsToRun();
-			this->sortFactoryEvents(this->activeFactoryEvents);
-		}
+	
+		
 		
 		for (std::shared_ptr<FactoryEvent> f : this->activeFactoryEvents) {
 			if (f == nullptr) continue;
@@ -40,7 +36,7 @@ Master::Master()
 		}
 		
 		
-
+		
 		if (i % 10 == 0) {
 			std::cout << "Current Time Tick: " << state->getCurrentTick() << std::endl;
 			for (std::shared_ptr<Item> i : state->getItemsState()) {
@@ -149,7 +145,7 @@ void Master::eventDone(FactoryEvent* e)
 	}
 
 
-	this->possibleCombinationOfEventsToRun();
+	
 }
 
 
@@ -159,7 +155,11 @@ void Master::possibleCombinationOfEventsToRun()
 	
 	int lastIndex = -1;
 
-	this->sortFactoryEvents(this->starvedFactoryEvents);
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+
+	shuffle(this->starvedFactoryEvents.begin(), this->starvedFactoryEvents.end(), std::default_random_engine(seed));
+
+	//this->sortFactoryEvents(this->starvedFactoryEvents);
 
 	for (int i = 0; i < this->starvedFactoryEvents.size(); ++i) {
 		std::string recipeName = this->starvedFactoryEvents[i]->getRecipeName();
@@ -171,14 +171,14 @@ void Master::possibleCombinationOfEventsToRun()
 				ingredients[item.getName()] += item.getAmount();
 			}
 		}
-		lastIndex = i ;
+		lastIndex = i;
 		if (!haveEnoughResources(ingredients)) {
 			lastIndex = i - 1;
 			break;
 		}
 	}
 	if (lastIndex != -1) {
-		auto it = this->starvedFactoryEvents.begin() + lastIndex + 1;
+		auto it = this->starvedFactoryEvents.begin() + lastIndex +1;
 
 		for (auto newIt = this->starvedFactoryEvents.begin(); newIt != it; ++newIt) {
 			(*newIt)->setStartingTimeStamp(state->getNextTick());
@@ -187,15 +187,6 @@ void Master::possibleCombinationOfEventsToRun()
 			this->starvedFactoryEvents.begin(), it);
 
 		this->starvedFactoryEvents.erase(this->starvedFactoryEvents.begin(), it);
-	}
-	if(areAllIngredientsEmpty()) {
-		for (auto newIt = this->starvedFactoryEvents.begin(); 
-			newIt != this->starvedFactoryEvents.end(); ++newIt) {
-			(*newIt)->setStartingTimeStamp(state->getNextTick());
-		}
-		this->activeFactoryEvents.insert(this->activeFactoryEvents.end(),
-			this->starvedFactoryEvents.begin(), this->starvedFactoryEvents.end());
-		this->starvedFactoryEvents.clear();
 	}
 	
 }
@@ -215,16 +206,6 @@ bool Master::haveEnoughResources(std::map<std::string, int> ingredientsSum)
 	return true;
 }
 
-bool Master::areAllIngredientsEmpty()
-{
-	for (std::shared_ptr<StartFactoryEvent> factoryEvent : this->starvedFactoryEvents) {
-		std::string recipeName = factoryEvent->getRecipeName();
-		if (this->state->getRecipeByName(recipeName).getIngredients().size() != 0) {
-			return false;
-		}
-	}
-	return true;
-}
 
 
 

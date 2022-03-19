@@ -98,7 +98,6 @@ void State::backtrackRecipesForGoalItem(Challenge& c,
 		}
 	}
 
-	//std::cout << "Small Recipes Pool size: " << smallRecipePool.size() << std::endl;
 
 	this->recipesPool = smallRecipePool;
 	this->technologiesPool = technologiesPool;

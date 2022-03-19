@@ -37,7 +37,6 @@ private:
 	template <class T> void sortFactoryEvents(std::vector<std::shared_ptr<T>>& v);
 	void possibleCombinationOfEventsToRun();
 	bool haveEnoughResources(std::map<std::string, int> ingredientsSum);
-	bool areAllIngredientsEmpty();
 
 	class MyHashFunction {
 	public:

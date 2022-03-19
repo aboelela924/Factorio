@@ -28,6 +28,7 @@ private:
 	std::vector<Item> itemsPool;
 
 	std::vector<int> idPool;
+	
 
 	std::vector<std::shared_ptr<Item>> itemsState;
 	std::vector<std::shared_ptr<Technology>> techonogiesState;
@@ -35,6 +36,7 @@ private:
 	std::vector<std::shared_ptr<Factory>> builtFactories;
 	std::vector<std::shared_ptr<Factory>> doneFactories;
 	std::vector<std::shared_ptr<Factory>> starvedFactories;
+	
 	std::vector<std::shared_ptr<Factory>> runningFactories;
 	
 	std::map<std::string, int> itemAmount;

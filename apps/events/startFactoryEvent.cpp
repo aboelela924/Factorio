@@ -3,7 +3,7 @@
 StartFactoryEvent::StartFactoryEvent(Feedback* feedback, double timestamp, int factoryId, string recipe)
 	: FactoryEvent{ timestamp, factoryId }, recipe(recipe) , feedback(feedback)
 {
-	this->feedback->runningProjectIds.insert(factoryId);
+	
 };
 
 void StartFactoryEvent::run() {
@@ -34,6 +34,7 @@ void StartFactoryEvent::run() {
 	}
 	else {
 		
+
 		for (Item i : r.getIngredients()) {
 			std::shared_ptr<Item> item_ptr = state->getItemByName(i.getName());
 			item_ptr->decreaseAmountBy(i.getAmount());
