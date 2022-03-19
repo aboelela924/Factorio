@@ -5,9 +5,10 @@ State* State::instance = 0;
 
 State::State() {
 	std::string mainPath = Utils::getexepath();
-	std::string delimiter = "out";
+	std::cout<< "My path : " << mainPath;
+	std::string delimiter = "Factorio";
 	mainPath = mainPath.substr(0, mainPath.find(delimiter));
-
+    mainPath+="Factorio";
 	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-3.json";
 	Challenge challenge = JsonParser::readChallenge(challengePath);
 

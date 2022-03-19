@@ -30,15 +30,16 @@
 using json = nlohmann::json;
 
 int main(int argc, char** argv){
+	std::string mainPath = Utils::getexepath();
+	std::string delimiter = "Factorio";
+	mainPath = mainPath.substr(0, mainPath.find(delimiter));
+    mainPath+="Factorio";
+	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-3.json";
 
-    
-
+	std::cout<< "My path : " << challengePath;
 
     Master master = Master();
 
-    std::string x;
-
-    std::cin >> x;
     return 0;
 
 }
