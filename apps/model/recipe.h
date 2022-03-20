@@ -30,8 +30,8 @@ public:
     std::string getCategory();
     int getEnergy();
     
-    std::vector<Item> getIngredients();
-    std::vector<Item> getProducts();
+    std::vector<Item>& getIngredients();
+    std::vector<Item>& getProducts();
 
     bool getEnbaled();
     void setEnabled(bool isEnabled);

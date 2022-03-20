@@ -37,12 +37,12 @@ int Recipe::getEnergy()
 	return this->energy;
 }
 
-std::vector<Item> Recipe::getIngredients()
+std::vector<Item>& Recipe::getIngredients()
 {
 	return this->ingredients;
 }
 
-std::vector<Item> Recipe::getProducts()
+std::vector<Item>& Recipe::getProducts()
 {
 	return this->products;
 }

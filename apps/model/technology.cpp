@@ -40,3 +40,8 @@ bool Technology::getEnabled()
 {
 	return this->enabled;
 }
+
+void Technology::setEnabled(bool isEnabled)
+{
+	this->enabled = isEnabled;
+}

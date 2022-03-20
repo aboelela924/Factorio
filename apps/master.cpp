@@ -7,19 +7,33 @@ Master::Master()
 	state = State::getInstance();
 	
 
-	for (int i = 0; i < 61000; ++i) {
+	for (int i = 0; i < 20000000; ++i) {
+
+		
 
 		std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
 		for (Recipe r : recipes) {
 			this->getFactoryEventForNewRecipe(r);
 		}
+
+		
+		std::vector<Technology> technologies = this->getNewTechnologies(state->getPossibleTechnology());
+		for (Technology t : technologies) {
+			this->createResearchEventForTechnology(t);
+		}
+
+
 		this->possibleCombinationOfEventsToRun();
 		this->sortFactoryEvents(this->activeFactoryEvents); 
 
 		state->incrementTick();
 
 		
-		
+		for (std::shared_ptr<ResearchEvent> t_ptr : this->activeResearchEvents) {
+			t_ptr->run();
+		}
+
+		this->activeResearchEvents.clear();
 
 		this->sortFactoryEvents(this->buildFactoryEvents);
 		for (std::shared_ptr<BuildFactoryEvent> f : this->buildFactoryEvents) {
@@ -37,7 +51,7 @@ Master::Master()
 		
 		
 		
-		if (i % 10 == 0) {
+		if (i % 100000 == 0) {
 			std::cout << "Current Time Tick: " << state->getCurrentTick() << std::endl;
 			for (std::shared_ptr<Item> i : state->getItemsState()) {
 				std::cout << "Item Name: " << i->getName() << ", Amount: " << i->getAmount() << std::endl;
@@ -68,6 +82,34 @@ std::vector<Recipe> Master::getNewRecipes(const std::vector<Recipe>& recipes)
 	}
 	return allowableRecipes;
 }
+
+std::vector<Technology> Master::getNewTechnologies(std::vector<Technology> technologies)
+{
+
+	std::vector<Technology> allowableTechnologies;
+
+	for (Technology t : technologies) {
+		if (!this->usedTechnologies.contains(t.getName())) {
+			this->usedTechnologies.insert(t.getName());
+			allowableTechnologies.push_back(t);
+		}
+	}
+
+	return allowableTechnologies;
+}
+
+
+void Master::createResearchEventForTechnology(Technology& t)
+{
+
+	std::shared_ptr<ResearchEvent> e =
+		std::shared_ptr<ResearchEvent>(
+			new ResearchEvent(state->getNextTick(), t.getName())
+			);
+	this->starvedResearchEvents.push_back(e);
+}
+
+
 
 void Master::getFactoryEventForNewRecipe(Recipe& r)
 {
@@ -163,7 +205,53 @@ void Master::possibleCombinationOfEventsToRun()
 
 	shuffle(this->starvedFactoryEvents.begin(), this->starvedFactoryEvents.end(), std::default_random_engine(seed));
 
+	seed = std::chrono::system_clock::now().time_since_epoch().count();
+
+	shuffle(this->starvedResearchEvents.begin(), this->starvedResearchEvents.end(), std::default_random_engine(seed));
 	
+
+	for (int i = 0; i < this->starvedResearchEvents.size(); ++i) {
+		std::string technologyName = this->starvedResearchEvents[i]->getTechnologyName();
+		Technology t = state->getTechnologyByName(technologyName);
+		for (Item item : t.getIngredients()) {
+			if (ingredients.find(item.getName()) == ingredients.end()) {
+				ingredients[item.getName()] = item.getAmount();
+			}
+			else {
+				ingredients[item.getName()] += item.getAmount();
+			}
+		}
+		lastIndex = i;
+		if (!haveEnoughResources(ingredients)) {
+			lastIndex = i - 1;
+			break;
+		}
+	}
+
+	if (lastIndex != -1) {
+		auto it = this->starvedResearchEvents.begin() + lastIndex + 1;
+
+		this->activeResearchEvents.insert(this->activeResearchEvents.end(),
+			this->starvedResearchEvents.begin(), it);
+
+		this->starvedResearchEvents.erase(this->starvedResearchEvents.begin(), it);
+
+		std::sort(this->activeResearchEvents.begin(),
+			this->activeResearchEvents.end(),
+			[](std::shared_ptr<ResearchEvent>& lhs, std::shared_ptr<ResearchEvent>& rhs)
+			{
+				return lhs->getTechnologyName() < rhs->getTechnologyName();
+			});
+	}
+
+
+	
+
+	if (lastIndex > -1 && lastIndex < this->starvedResearchEvents.size() -1) {
+		return;
+	}
+
+	lastIndex = -1;
 
 	for (int i = 0; i < this->starvedFactoryEvents.size(); ++i) {
 		std::string recipeName = this->starvedFactoryEvents[i]->getRecipeName();
@@ -200,12 +288,6 @@ void Master::possibleCombinationOfEventsToRun()
 			this->starvedFactoryEvents.begin(), it);
 
 		this->starvedFactoryEvents.erase(this->starvedFactoryEvents.begin(), it);
-
-
-		
-
-
-		
 		
 	}
 	
@@ -260,6 +342,7 @@ void Master::checkForFactoryToStop(FactoryEvent* e)
 	}
 
 }
+
 
 
 

@@ -46,6 +46,8 @@ public:
 	double getNextTick();
 	void incrementTick();
 
+	std::vector<Recipe>& getRecipePool();
+
 	
 	void moveFactory(int factoryId, 
 		std::vector<std::shared_ptr<Factory>>& from, 
@@ -55,6 +57,8 @@ public:
 	void addStarvedFactory(std::shared_ptr<Factory> f);
 	
 
+	Technology& getTechnologyByName(std::string name);
+
 	void addItemToAccumlationMap(std::string name, int amount);
 	int getItemAccumlatedAmount(std::string name);
 
@@ -63,9 +67,16 @@ public:
 		std::string pathToTechnologies);
 	void getParent(Item& item, int factor, 
 		std::vector<Recipe>& smallRecipePool, 
-		std::vector<Technology>& samllTechnologyPool,
+		std::vector<Technology>& smallTechnologyPool,
 		std::unordered_set<std::string>& usedRecipesNames,
 		std::unordered_set<std::string>& usedTechnologiesNames);
+	Recipe getRecipeForItem(std::string name);
+	void technologyPrerequisites(Technology& t, 
+		std::vector<Recipe>& smallRecipePool,
+		std::vector<Technology>& smallTechnologyPool,
+		std::unordered_set<std::string>& usedRecipesNames,
+		std::unordered_set<std::string>& usedTechnologiesNames);
+
 	Technology& getTechnologyForRecipe(std::string name);
 	int getItemAmount(std::string itemName);
 
@@ -78,6 +89,8 @@ public:
 	std::shared_ptr<Item> getItemByName(std::string name);
 	std::shared_ptr<Item> getItemByNameFromItemPool(std::string name);
 
+	std::vector<std::shared_ptr<Factory>>& getStoppedFactories();
+
 	std::vector<Technology> getPossibleTechnology();
 
 	std::vector<std::shared_ptr<Item>>& getItemsState();
@@ -88,7 +101,6 @@ public:
 	void addFactoryIdToIdPool(int id);
 	std::vector<Factory> getFactoryPool();
 	std::vector<std::shared_ptr<Factory>>& getBuiltFactories();
-	std::vector<std::shared_ptr<Factory>>& getStoppedFactories();
 	std::vector<std::shared_ptr<Factory>>& getStarvedFactories();
 	std::vector<std::shared_ptr<Factory>>& getRunningFactories();
 	std::vector<std::shared_ptr<Factory>> getCombinedFactories();

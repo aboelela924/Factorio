@@ -24,4 +24,5 @@ public:
     std::vector<Item> getIngredients();
     std::vector<std::string> getEffects();
     bool getEnabled();
+    void setEnabled(bool isEnabled);
 };

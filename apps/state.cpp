@@ -5,11 +5,10 @@ State* State::instance = 0;
 
 State::State() {
 	std::string mainPath = Utils::getexepath();
-	std::cout<< "My path : " << mainPath;
-	std::string delimiter = "Factorio";
+	std::string delimiter = "out";
 	mainPath = mainPath.substr(0, mainPath.find(delimiter));
-    mainPath+="Factorio";
-	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-3.json";
+
+	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-5.json";
 	Challenge challenge = JsonParser::readChallenge(challengePath);
 
 	std::string recipesPath = mainPath + "/data/factorio-data/recipe.json";
@@ -76,6 +75,19 @@ void State::incrementTick()
 	
 }
 
+std::vector<Recipe>& State::getRecipePool()
+{
+	return this->recipesPool;
+}
+
+
+Technology& State::getTechnologyByName(std::string name)
+{
+	auto it = find_if(this->technologiesPool.begin(),
+		this->technologiesPool.end(),
+		[&name](Technology t) {return t.getName() == name; });
+	return *it;
+}
 
 void State::addItemToAccumlationMap(std::string name, int amount)
 {
@@ -121,8 +133,46 @@ void State::backtrackRecipesForGoalItem(Challenge& c,
 
 
 	this->recipesPool = smallRecipePool;
-	this->technologiesPool = technologiesPool;
+	this->technologiesPool = smallTechnologyPool;
 
+}
+
+Recipe State::getRecipeForItem(std::string name) {
+	/*for (Recipe r : this->recipesPool) {
+		for (Item i : r.getProducts()) {
+			if (i.getName() == name) {
+				return r;
+			}
+		}
+	}*/
+	Recipe r = this->getRecipeByName(name);
+	if (!r.getName().empty()) {
+		return r;
+	}
+	
+	for (Recipe r2 : this->recipesPool) {
+		for (Item i : r2.getProducts() ) {
+			if (i.getName() == name) {
+				return r2;
+			}
+		}
+	}
+	return r;
+	/*auto it = find_if(
+		this->recipesPool.begin(), 
+		this->recipesPool.end(), 
+		[&name](Recipe& r) {
+			
+			std::vector<Item>& products = r.getProducts();
+			
+			auto it2 = find_if(products.begin(), products.end(),
+				[&name](Item& i) {return i.getName() == name; });
+			
+
+			return it2 != products.end();
+		}
+	);
+	return *it;*/
 }
 
 void State::getParent(Item& item, int factor,  
@@ -134,7 +184,7 @@ void State::getParent(Item& item, int factor,
 
 	
 
-	Recipe r = this->getRecipeByName(item.getName());
+	Recipe r = this->getRecipeForItem(item.getName());
 	for (Item i : r.getIngredients()) {
 		int newFactor = factor * i.getAmount();
 		getParent(i, newFactor, smallRecipePool,
@@ -151,29 +201,51 @@ void State::getParent(Item& item, int factor,
 
 	if (!r.getEnbaled()) {
 		Technology t = getTechnologyForRecipe(r.getName());
-		for (Item i : t.getIngredients()) {
-			getParent(i, i.getAmount(), smallRecipePool,
-				smallTechnologyPool, usedRecipesNames,
-				usedTechnologiesNames);
-
-			if (this->itemAmount.find(i.getName()) == this->itemAmount.end()) {
-				this->itemAmount[i.getName()] = i.getAmount();
-			}
-			else {
-				this->itemAmount[i.getName()] += i.getAmount();
-			}
-		}
-
-		if (usedTechnologiesNames.find(t.getName()) != usedTechnologiesNames.end()) {
-			smallTechnologyPool.push_back(t);
-			usedTechnologiesNames.insert(t.getName());
-		}
+		
+		technologyPrerequisites(t, smallRecipePool,
+			smallTechnologyPool, usedRecipesNames,
+			usedTechnologiesNames);
+		
 	}
 
 	if (usedRecipesNames.find(r.getName()) == usedRecipesNames.end()) {
 		smallRecipePool.push_back(r);
 		usedRecipesNames.insert(r.getName());
 	}
+}
+
+void State::technologyPrerequisites(Technology& t, 
+	std::vector<Recipe>& smallRecipePool, 
+	std::vector<Technology>& smallTechnologyPool, 
+	std::unordered_set<std::string>& usedRecipesNames, 
+	std::unordered_set<std::string>& usedTechnologiesNames)
+{
+
+	for (Item i : t.getIngredients()) {
+		getParent(i, i.getAmount(), smallRecipePool,
+			smallTechnologyPool, usedRecipesNames,
+			usedTechnologiesNames);
+
+		if (this->itemAmount.find(i.getName()) == this->itemAmount.end()) {
+			this->itemAmount[i.getName()] = i.getAmount();
+		}
+		else {
+			this->itemAmount[i.getName()] += i.getAmount();
+		}
+	}
+
+	if (usedTechnologiesNames.find(t.getName()) == usedTechnologiesNames.end() && !t.getName().empty()) {
+		smallTechnologyPool.push_back(t);
+		usedTechnologiesNames.insert(t.getName());
+	}
+
+
+	for (std::string ingTechName : t.getPrerequisites()) {
+		Technology& ingTech = this->getTechnologyByName(ingTechName);
+		technologyPrerequisites(ingTech,
+			smallRecipePool, smallTechnologyPool, usedRecipesNames, usedTechnologiesNames);
+	}
+
 }
 
 Technology& State::getTechnologyForRecipe(std::string name) {
