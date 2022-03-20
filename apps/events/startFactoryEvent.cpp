@@ -3,7 +3,7 @@
 StartFactoryEvent::StartFactoryEvent(Feedback* feedback, double timestamp, int factoryId, string recipe)
 	: FactoryEvent{ timestamp, factoryId }, recipe(recipe) , feedback(feedback)
 {
-	
+	State* state = State::getInstance();
 };
 
 void StartFactoryEvent::run() {
@@ -28,12 +28,15 @@ void StartFactoryEvent::run() {
 				item_ptr->increaseAmoutnBy(i.getAmount());
 				state->getItemsState().push_back(item_ptr);
 			}
+			state->addItemToAccumlationMap(i.getName(), i.getAmount());
 		}
 
 		this->feedback->eventDone(this);
 	}
 	else {
 		
+
+
 
 		for (Item i : r.getIngredients()) {
 			std::shared_ptr<Item> item_ptr = state->getItemByName(i.getName());

@@ -10,10 +10,10 @@ void BuildFactoryEvent::run() {
 		<< "Factory name: " << factoryName << " and timestamp: " << this->getTimestamp() << endl;
 
 	State* state = State::getInstance();
-	Factory f = state->getFactoryByName(factoryName);
+	/*Factory f = state->getFactoryByName(factoryName);
 	f.setFactoryId(this->factoryId);
 	f.setFactoryType(this->factoryType);
-	state->addBuiltFactories(f);
+	state->addBuiltFactories(f);*/
 
 	
 }

@@ -76,6 +76,26 @@ void State::incrementTick()
 	
 }
 
+
+void State::addItemToAccumlationMap(std::string name, int amount)
+{
+	if (this->accumlatedItemGeneration.find(name) == this->accumlatedItemGeneration.end()) {
+		this->accumlatedItemGeneration[name] = amount;
+	}
+	else {
+		this->accumlatedItemGeneration[name] += amount;
+	}
+
+}
+
+int State::getItemAccumlatedAmount(std::string name)
+{
+	if (this->accumlatedItemGeneration.find(name) != this->accumlatedItemGeneration.end()) {
+		return this->accumlatedItemGeneration[name];
+	}
+	return 0;
+}
+
 void State::backtrackRecipesForGoalItem(Challenge& c, 
 	std::string pathToRecipes, 
 	std::string pathToTechnologies)
@@ -169,6 +189,15 @@ Technology& State::getTechnologyForRecipe(std::string name) {
 		});
 	int index = std::distance(this->technologiesPool.begin(), it);
 	return this->technologiesPool[index];
+}
+
+int State::getItemAmount(std::string itemName)
+{
+	if (this->itemAmount.find(itemName) != this->itemAmount.end()) {
+		return this->itemAmount[itemName];
+	}
+
+	return 0;
 }
 
 bool State::checkIfRequirementIsFullfilled(std::vector<Item> requirements)
@@ -296,13 +325,69 @@ std::vector<Factory> State::getFactoryPool()
 {
 	return this->factoriesPool;
 }
-std::vector<std::shared_ptr<Factory>>& State::getDoneFactories()
+
+void State::deleteFactoryById(int id, std::vector<std::shared_ptr<Factory>>& from)
 {
-	return this->doneFactories;
+	auto it = find_if(
+		from.begin(), from.end(),
+		[id](std::shared_ptr<Factory> f) {return f->getFactoryId() == id; }
+	);
+	if (it != from.end()) {
+		from.erase(it);
+	}
+}
+void State::addStarvedFactory(std::shared_ptr<Factory> f)
+{
+	this->starvedFactories.push_back(f);
+}
+/*void State::moveToRunningFactoryById(int id)
+{
+	auto it = find_if(this->builtFactories.begin(),
+		this->builtFactories.end(),
+		[&id](std::shared_ptr<Factory> obj) {return obj->getFactoryId() == id; });
+	if (it != this->builtFactories.end()) {
+		this->runningFactories.push_back(*it);
+		this->builtFactories.erase(it);
+		return;
+	}
+
+	auto it = find_if(this->starvedFactories.begin(),
+		this->starvedFactories.end(),
+		[&id](std::shared_ptr<Factory> obj) {return obj->getFactoryId() == id; });
+	if (it != this->starvedFactories.end()) {
+		this->runningFactories.push_back(*it);
+		this->starvedFactories.erase(it);
+		return;
+	}
+
+
+}*/
+void State::moveFactory(int factoryId, 
+	std::vector<std::shared_ptr<Factory>>& from, 
+	std::vector<std::shared_ptr<Factory>>& to)
+{
+	auto it = find_if(
+		from.begin(), from.end(),
+		[factoryId](std::shared_ptr<Factory> f) {return f->getFactoryId() == factoryId; }
+	);
+	if (it != from.end()) {
+		to.insert(to.end(), *it);
+		from.erase(it);
+	}
+}
+
+
+std::vector<std::shared_ptr<Factory>>& State::getStoppedFactories()
+{
+	return this->stoppedFactories;
 }
 std::vector<std::shared_ptr<Factory>>& State::getStarvedFactories()
 {
 	return this->starvedFactories;
+}
+std::vector<std::shared_ptr<Factory>>& State::getRunningFactories()
+{
+	return this->runningFactories;
 }
 std::shared_ptr<Factory> State::getFactoryById(int id)
 {
@@ -312,8 +397,8 @@ std::shared_ptr<Factory> State::getFactoryById(int id)
 	allFactories.insert(allFactories.end(), this->builtFactories.begin(),
 		this->builtFactories.end());
 	
-	allFactories.insert(allFactories.end(), this->doneFactories.begin(),
-		this->doneFactories.end());
+	allFactories.insert(allFactories.end(), this->runningFactories.begin(),
+		this->runningFactories.end());
 
 	allFactories.insert(allFactories.end(), this->starvedFactories.begin(), 
 		this->starvedFactories.end());
@@ -330,14 +415,14 @@ std::shared_ptr<Factory> State::getFactoryById(int id)
 
 	return nullptr;
 }
-std::vector<std::shared_ptr<Factory>>& State::getCombinedFactories()
+std::vector<std::shared_ptr<Factory>> State::getCombinedFactories()
 {
 	std::vector<std::shared_ptr<Factory>> factories = std::vector<std::shared_ptr<Factory>>();
 
 	factories.insert(factories.end(), this->builtFactories.begin(),
 		this->builtFactories.end());
-	factories.insert(factories.end(), this->doneFactories.begin(), 
-		this->doneFactories.end());
+	factories.insert(factories.end(), this->stoppedFactories.begin(), 
+		this->stoppedFactories.end());
 	factories.insert(factories.end(), this->starvedFactories.begin(), 
 		this->starvedFactories.end());
 
@@ -352,6 +437,10 @@ int State::getNewFactoryId() {
 	int id = this->idPool[0];
 	this->idPool.erase(this->idPool.begin());
 	return id;
+}
+void State::addFactoryIdToIdPool(int id)
+{
+	this->idPool.push_back(id);
 }
 Factory State::getFactoryByName(std::string name) {
 	auto it = find_if(this->factoriesPool.begin(),

@@ -32,11 +32,16 @@ public:
 private:
 	State* state;
 	std::vector<std::shared_ptr<BuildFactoryEvent>> buildFactoryEvents;
+
 	std::vector<std::shared_ptr<StartFactoryEvent>> activeFactoryEvents;
 	std::vector<std::shared_ptr<StartFactoryEvent>> starvedFactoryEvents;
+	std::vector<std::shared_ptr<StartFactoryEvent>> stoppFactoryEvents;
+
 	template <class T> void sortFactoryEvents(std::vector<std::shared_ptr<T>>& v);
 	void possibleCombinationOfEventsToRun();
 	bool haveEnoughResources(std::map<std::string, int> ingredientsSum);
+	void checkForFactoryToStop(FactoryEvent* e);
+
 
 	class MyHashFunction {
 	public:
@@ -50,6 +55,8 @@ private:
 		}
 	};
 	std::unordered_set<Recipe, MyHashFunction> usedRecipes;
+
+
 
 };
 

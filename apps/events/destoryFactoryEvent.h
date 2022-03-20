@@ -2,8 +2,7 @@
 
 #include "event.h"
 #include <iostream>
-
-using namespace std;
+#include "../state.h"
 
 class DestoryFactoryEvent : public Event {
 
