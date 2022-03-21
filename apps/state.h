@@ -3,6 +3,7 @@
 #include <memory>
 #include <unordered_set>
 #include <map>
+#include <math.h>
 
 #include "model/recipe.h"
 #include "model/factory.h"
@@ -39,6 +40,9 @@ private:
 	std::vector<std::shared_ptr<Factory>> runningFactories;
 	
 	std::map<std::string, int> itemAmount;
+	std::map<std::string, std::vector<std::string>> productRecipeMap;
+	std::map<std::string, std::vector<std::pair<std::string, int>>> itemIngredientMap;
+
 
 public:
 	

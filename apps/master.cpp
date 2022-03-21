@@ -255,7 +255,9 @@ void Master::possibleCombinationOfEventsToRun()
 
 	for (int i = 0; i < this->starvedFactoryEvents.size(); ++i) {
 		std::string recipeName = this->starvedFactoryEvents[i]->getRecipeName();
-		for (Item item : this->state->getRecipeByName(recipeName).getIngredients()) {
+		Recipe r = this->state->getRecipeByName(recipeName);
+		std::vector<Item> ing = r.getIngredients();
+		for (Item item : ing) {
 			if (ingredients.find(item.getName()) == ingredients.end()) {
 				ingredients[item.getName()] = item.getAmount();
 			}

@@ -12,6 +12,8 @@ void ResearchEvent::run() {
 
 	t.setEnabled(true);
 
+	std::cout << "At timestamp: " << this->timestamp << "Technology: " << t.getName() << " was enabled.\n";
+
 	for (Item i : t.getIngredients()) {
 		state->getItemByName(i.getName())->decreaseAmountBy(i.getAmount());
 	}
@@ -27,6 +29,7 @@ void ResearchEvent::run() {
 
 		if (it != recipePool.end()) {
 			(*it).setEnabled(true);
+			std::cout << "At timestamp: " << this->timestamp << "Recipe: " << (*it).getName() << " was enabled.\n";
 		}
 	}
 
