@@ -253,7 +253,6 @@ std::shared_ptr<Item> State::getItemByNameFromItemPool(std::string name) {
 std::vector<Recipe> State::getPossibleRecipes()
 {
 	std::vector<Recipe> possibleRecipes;
-
 	for (Recipe r : this->recipesPool) {
 		if (r.getEnbaled() && checkIfRequirementIsFullfilled(r.getIngredients())) {
 			possibleRecipes.push_back(r);

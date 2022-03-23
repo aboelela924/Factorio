@@ -22,6 +22,7 @@ public:
 	StartFactoryEvent(Feedback* feedback, double timestamp, int factoryId, string recipe);
 
 	void run() override;
+	// void to_json(json& myJson) override;
 
 	std::string getRecipeName();
 	bool isFactoryStillRunning(double currentTick, int energy, double craftingSpeed);

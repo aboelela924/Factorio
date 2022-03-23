@@ -2,6 +2,8 @@
 
 #include "factoryEvent.h"
 #include <iostream>
+#include <nlohmann/json.hpp>
+#include <iomanip>
 
 using namespace std;
 
@@ -12,8 +14,8 @@ private:
 
 public:
 
-	StopFactoryEvent(double timestamp, int factoryId);
-
+	StopFactoryEvent(double timestamp, int factoryId);	
 	void run() override;
+	// void to_json(json& myJson) override;
 
 };

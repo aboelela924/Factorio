@@ -1,4 +1,6 @@
 #include "startFactoryEvent.h"
+// #include "../jsonWriter.h"
+
 
 StartFactoryEvent::StartFactoryEvent(Feedback* feedback, double timestamp, int factoryId, string recipe)
 	: FactoryEvent{ timestamp, factoryId }, recipe(recipe) , feedback(feedback)
@@ -8,6 +10,26 @@ StartFactoryEvent::StartFactoryEvent(Feedback* feedback, double timestamp, int f
 
 void StartFactoryEvent::run() {
 	
+	// json j;
+    // j.push_back(json{ {"type","start-factory-event"},{"timestamp", this->getTimestamp()}, {"factory-id",factoryId},{"recipe",recipe}});
+	// std::ofstream outfile;
+    // outfile.open("test_out.json", std::ios_base::app);
+	// outfile << j;
+
+	// vector<string> event={"2",to_string(this->getTimestamp()),to_string(factoryId),recipe};
+	// JsonParser::testFunction(event);
+
+	const void * address = static_cast<const void*>(this);
+	std::stringstream ss;
+	ss << address;  
+	std::string name = ss.str();
+
+	if (this->feedback->eventsSet.find(name)==this->feedback->eventsSet.end()) {
+		this->feedback->eventsSet.insert(name);
+		vector<string> event={"2",to_string(this->getTimestamp()),to_string(factoryId),recipe};
+		JsonParser::testFunction(event);
+	 }
+
 
 	State* state = State::getInstance();
 	Recipe r = state->getRecipeByName(this->recipe);
@@ -75,3 +97,9 @@ void StartFactoryEvent::setStartingTimeStamp(double tick)
 {
 	this->timestamp = tick;
 }
+
+
+// void StartFactoryEvent::to_json(json& myJson)
+// {
+// 	myJson.push_back({{"test","test"}});
+// }

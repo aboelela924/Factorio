@@ -149,3 +149,41 @@ std::vector<Technology> JsonParser::readTechnology(string path)
 
 	return technologies;
 }
+
+// void JsonParser::testFunction(std::map<string,string>& event){
+// 	std::cout << "64661";
+// 	auto it = event.findForward('eventType');
+// 	std::string eventT=it->second;
+// 	static json j;
+// }
+
+void JsonParser::testFunction(std::vector<string>& event) {
+	int cc = stoi(event[0]);
+	json static j;
+	std::ofstream file("test_out.json",std::ios_base::app);
+	switch (cc) {
+	case 1:
+		j.push_back(json{ {"type","build-factory-event"},{"timestamp",event[1]},{"factory-id",event[2]},{"factory-type", event[3]},{"factory-name", event[4]} });
+		break;
+	case 2:
+		j.push_back(json{ {"type","start-factory-event"},{"timestamp", event[1]}, {"factory-id",event[2]},{"recipe",event[3]}});
+		break;
+	case 3:
+		j.push_back(json{{"type","destroy-factory-event"},{"timestamp", event[1]}, {"factory-id",event[2]} });
+		break;
+	case 4:
+		j.push_back(json{{"type","stop-factory-event"},{"timestamp", event[1]}, {"factory-id",event[2]} });
+		break;
+	case 5:
+		j.push_back(json{{"type","research-event"},{"timestamp", event[1]}, {"technology",event[2]} });
+		break;
+	case 6:
+		j.push_back(json{{"type","victory-event"},{"timestamp", event[1]} });
+		break;
+	case 7:
+		std::ofstream o("test_out.json");
+    	o << std::setw(4) << j << std::endl;
+	//default:
+		// event type 4
+	}
+};

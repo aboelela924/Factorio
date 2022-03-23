@@ -21,7 +21,6 @@ private:
 	~State() {};
 
 	double currentTick = -1;
-
 	std::vector<Recipe> recipesPool;
 	std::vector<Technology> technologiesPool;
 	std::vector<Factory> factoriesPool;

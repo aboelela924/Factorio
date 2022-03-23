@@ -8,6 +8,7 @@
 #include "model/item.h"
 #include "model/recipe.h"
 #include "model/technology.h"
+#include <iomanip>
 
 
 
@@ -22,5 +23,6 @@ public:
 	std::vector<Item> static readItems(string path);
 	std::vector<Recipe> static readRecipe(string path);
 	std::vector<Technology> static readTechnology(string path);
+	void static testFunction(std::vector<string>& event);
 
 };

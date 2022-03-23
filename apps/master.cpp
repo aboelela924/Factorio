@@ -1,5 +1,7 @@
 #include "master.h"
-
+#include <fstream>
+#include <iomanip>
+#include <nlohmann/json.hpp>
 
 Master::Master()
 {
@@ -7,34 +9,29 @@ Master::Master()
 	state = State::getInstance();
 	
 
-	for (int i = 0; i < 100000; ++i) {
-
+	for (int i = 0; i < 100; ++i) { //100000
 		std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
-		for (Recipe r : recipes) {
+		// always recipes.size() is null ! is this normal ?
+		
+ 		for (Recipe r : recipes) {
 			this->getFactoryEventForNewRecipe(r);
 		}
 		this->possibleCombinationOfEventsToRun();
 		this->sortFactoryEvents(this->activeFactoryEvents); 
-
 		state->incrementTick();
-
-		
-		
-
 		this->sortFactoryEvents(this->buildFactoryEvents);
+		json j;
 		for (std::shared_ptr<BuildFactoryEvent> f : this->buildFactoryEvents) {
 			f->run();
+			// f->to_json(j);
+
 		}
 		this->buildFactoryEvents.clear();
-
-	
-		
 		
 		for (std::shared_ptr<FactoryEvent> f : this->activeFactoryEvents) {
 			if (f == nullptr) continue;
 			f->run();
 		}
-		
 		
 		
 		if (i % 10 == 0) {
@@ -45,6 +42,11 @@ Master::Master()
 			std::cout << "\n*------------------------------------*\n";
 		}
 	}
+	//
+	// std::ofstream o("test_out.json");
+    // o << std::setw(4) << this->myJsonFile << std::endl;
+	vector<string> event={"7"};
+	JsonParser::testFunction(event);
 }
 
 Master::~Master()

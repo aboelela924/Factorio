@@ -19,7 +19,8 @@ private:
 public:
 
 	BuildFactoryEvent(double timestamp, int factoryId, string factoryType, string factoryName);
-
 	void run() override;
+	// void to_json(json& myJson) override;
+
 
 };

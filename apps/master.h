@@ -5,6 +5,12 @@
 #include <bits/stdc++.h>
 #include <map>
 #include <typeinfo>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <iomanip>
+#include <nlohmann/json.hpp>
 
 #include "state.h"
 #include "events/event.h"
@@ -17,6 +23,8 @@
 #include "events/victoryEvent.h"
 
 #include "model/factory.h"
+#include "jsonParser.h"
+
 
 #include "feedback.h"
 
@@ -29,6 +37,7 @@ public:
 	std::vector<Recipe> getNewRecipes(const std::vector<Recipe>& recipes);
 	void getFactoryEventForNewRecipe(Recipe& r);
 	void eventDone(FactoryEvent* e) override;
+	json myJsonFile;
 private:
 	State* state;
 	std::vector<std::shared_ptr<BuildFactoryEvent>> buildFactoryEvents;
