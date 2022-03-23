@@ -1,6 +1,7 @@
 #pragma once
 
 #include "factoryEvent.h"
+#include "../state.h"
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <iomanip>

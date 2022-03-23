@@ -22,10 +22,10 @@ void BuildFactoryEvent::run() {
 
 
 	State* state = State::getInstance();
-	Factory f = state->getFactoryByName(factoryName);
+	/*Factory f = state->getFactoryByName(factoryName);
 	f.setFactoryId(this->factoryId);
 	f.setFactoryType(this->factoryType);
-	state->addBuiltFactories(f);
+	state->addBuiltFactories(f);*/
 
 
 	

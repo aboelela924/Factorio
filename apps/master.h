@@ -35,17 +35,27 @@ public:
 	
 	
 	std::vector<Recipe> getNewRecipes(const std::vector<Recipe>& recipes);
+	std::vector<Technology> getNewTechnologies(std::vector<Technology> technologies);
 	void getFactoryEventForNewRecipe(Recipe& r);
 	void eventDone(FactoryEvent* e) override;
 	json myJsonFile;
 private:
 	State* state;
 	std::vector<std::shared_ptr<BuildFactoryEvent>> buildFactoryEvents;
+
 	std::vector<std::shared_ptr<StartFactoryEvent>> activeFactoryEvents;
 	std::vector<std::shared_ptr<StartFactoryEvent>> starvedFactoryEvents;
+	std::vector<std::shared_ptr<StartFactoryEvent>> stoppFactoryEvents;
+
+
+	std::vector<std::shared_ptr<ResearchEvent>> starvedResearchEvents;
+	std::vector<std::shared_ptr<ResearchEvent>> activeResearchEvents;
+
 	template <class T> void sortFactoryEvents(std::vector<std::shared_ptr<T>>& v);
 	void possibleCombinationOfEventsToRun();
 	bool haveEnoughResources(std::map<std::string, int> ingredientsSum);
+	void checkForFactoryToStop(FactoryEvent* e);
+
 
 	class MyHashFunction {
 	public:
@@ -59,6 +69,9 @@ private:
 		}
 	};
 	std::unordered_set<Recipe, MyHashFunction> usedRecipes;
+	
+	std::unordered_set<std::string> usedTechnologies;
+	void createResearchEventForTechnology(Technology& t);
 
 };
 

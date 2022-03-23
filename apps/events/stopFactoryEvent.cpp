@@ -9,17 +9,28 @@ StopFactoryEvent::StopFactoryEvent(double timestamp, int factoryId)
 void StopFactoryEvent::run() {
 	cout << "Start factory event with factory id: " << factoryId << ", timestamp: " << this->getTimestamp() << endl;
 	vector<string> event={"4",to_string(this->getTimestamp()),to_string(factoryId)};
+	
 	JsonParser::testFunction(event);
-	// json j;
-    // j.push_back(json{{"type","build-factory-event"},{"timestamp", this->getTimestamp()}, {"factory-id",factoryId},{"factory-type", factoryType},{"factory-name", factoryName} });
-    // // std::ofstream o("test_out.json");
-    // // o << std::setw(4) << j << std::endl;
-	// std::ofstream outfile;
-    // outfile.open("test_out.json", std::ios_base::app);
-	// outfile << j;
-}
+	State* state = State::getInstance();
 
-// void StopFactoryEvent::to_json(json& myJson)
-// {
-// 	myJson.push_back({{"test","test"}});
-// }
+	auto it = find_if(state->getStarvedFactories().begin(),
+		state->getStarvedFactories().end(),
+		[this](std::shared_ptr<Factory> f) {return f->getFactoryId() == this->getFactoryId(); });
+
+	if (it != state->getStarvedFactories().end()) {
+		state->getStoppedFactories().push_back(*it);
+		state->getStarvedFactories().erase(it);
+	}else{
+
+		auto it = find_if(state->getRunningFactories().begin(),
+			state->getRunningFactories().end(),
+			[this](std::shared_ptr<Factory> f) {return f->getFactoryId() == this->getFactoryId(); });
+
+		if (it != state->getRunningFactories().end()) {
+			state->getStoppedFactories().push_back(*it);
+			state->getRunningFactories().erase(it);
+		}
+
+	}
+
+}

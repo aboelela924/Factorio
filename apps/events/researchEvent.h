@@ -2,6 +2,7 @@
 
 
 #include "event.h"
+#include "../state.h"
 #include <string>
 #include <iostream>
 
@@ -13,4 +14,5 @@ private:
 public:
 	ResearchEvent(double timestamp, string technology);
 	void run() override;
+	std::string getTechnologyName();
 };
