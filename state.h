@@ -42,7 +42,6 @@ private:
 	std::map<std::string, int> itemAmount;
 	std::map<std::string, std::vector<std::string>> productRecipeMap;
 	std::map<std::string, std::vector<std::pair<std::string, int>>> itemIngredientMap;
-	std::map<std::string,int>factory_item;
 
 public:
 	
