@@ -26,6 +26,7 @@ private:
 	std::vector<Technology> technologiesPool;
 	std::vector<Factory> factoriesPool;
 	std::vector<Item> itemsPool;
+	std::vector<Item> goalItems;
 
 	std::vector<int> idPool;
 	
@@ -44,6 +45,40 @@ private:
 
 
 public:
+
+	void getGoalItems(){
+		for(Item i : this->goalItems){
+			cout << i.getName() << ":" <<i.getAmount() << endl;
+    }
+	}
+
+	// bool condition(Item item)
+	// {
+	// 	if(item.getName()==this->goalItems[0].getName() && item.getAmount()>=this->goalItems[0].getAmount() ){
+	// 		return true;
+	// 		} else {
+	// 		return false;
+	// 	}	
+	// }
+
+	bool isGoalItemAchieved(){
+		std::vector<Item>& goalItems = this->goalItems; 
+		auto it  = find_if(this->itemsState.begin(), this->itemsState.end(),
+		[&goalItems](std::shared_ptr<Item> item){
+
+			if(item->getName()==goalItems[0].getName() && item->getAmount()>=goalItems[0].getAmount() ){
+			return true;
+			} else {
+			return false;
+		}	
+
+		});
+		if(it != this->itemsState.end()) {
+			return true;
+			} else {
+			return false;
+		}
+	}
 	
 	double getCurrentTick();
 	double getNextTick();

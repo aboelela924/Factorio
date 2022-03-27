@@ -5,23 +5,26 @@ State* State::instance = 0;
 
 State::State() {
     //Omar
-	// std::string mainPath = Utils::getexepath();
-	// std::cout<< "My path : " << mainPath;
-	// std::string delimiter = "Factorio";
-	// mainPath = mainPath.substr(0, mainPath.find(delimiter));
-    // mainPath+="Factorio";
-	// std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-3.json";
-	// Challenge challenge = JsonParser::readChallenge(challengePath);
+	std::string mainPath = Utils::getexepath();
+	std::cout<< "My path : " << mainPath;
+	std::string delimiter = "Factorio";
+	mainPath = mainPath.substr(0, mainPath.find(delimiter));
+    mainPath+="Factorio";
+	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-1.json";
+	Challenge challenge = JsonParser::readChallenge(challengePath);
 
     //Ahmed
-    std::string mainPath = Utils::getexepath();
-	std::string delimiter = "out";
-	mainPath = mainPath.substr(0, mainPath.find(delimiter));
+    // std::string mainPath = Utils::getexepath();
+	// std::string delimiter = "out";
+	// mainPath = mainPath.substr(0, mainPath.find(delimiter));
 
-	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-3.json";
-	Challenge challenge = JsonParser::readChallenge(challengePath);
+	// std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-3.json";
+	// Challenge challenge = JsonParser::readChallenge(challengePath);
     //------------------
 
+    for(Item i : challenge.getGoalItems()){
+        this->goalItems.push_back(i);
+    }
 
 	std::string recipesPath = mainPath + "/data/factorio-data/recipe.json";
 	this->recipesPool = JsonParser::readRecipe(recipesPath);

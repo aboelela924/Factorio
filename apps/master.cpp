@@ -7,10 +7,11 @@ Master::Master()
 {
 	std::vector<Event> events;
 	state = State::getInstance();
+	// while(state->isGoalItemAchieved()){
 	for (int i = 0; i < 100000; ++i) { //100000
-		std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
-		// always recipes.size() is null ! is this normal ?
-		
+		// if(!state->isGoalItemAchieved()) break;
+
+		std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());		
  		for (Recipe r : recipes) {
 			this->getFactoryEventForNewRecipe(r);
 		}
@@ -62,6 +63,9 @@ Master::Master()
     // o << std::setw(4) << this->myJsonFile << std::endl;
 	vector<string> event={"7"};
 	JsonParser::testFunction(event);
+
+	cout << "GOAL ACHIEVED : "<< state->isGoalItemAchieved();
+
 }
 
 Master::~Master()
