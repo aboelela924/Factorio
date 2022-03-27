@@ -2,14 +2,18 @@
 #include <fstream>
 #include <iomanip>
 #include <nlohmann/json.hpp>
+#include <cmath>
 
-Master::Master()
+
+Master::Master(std::string challengeName)
 {
 	std::vector<Event> events;
-	state = State::getInstance();
-	// while(state->isGoalItemAchieved()){
-	for (int i = 0; i < 100000; ++i) { //100000
+	state = State::getInstance(challengeName);
+	while(!state->isGoalItemAchieved() || state->getCurrentTick()>=pow(2,40)){
+		// for (int i = 0; i < 100; ++i) { //100000
 		// if(!state->isGoalItemAchieved()) break;
+		// bool a=state->isGoalItemAchieved();
+		// if(a) break;
 
 		std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());		
  		for (Recipe r : recipes) {
@@ -48,24 +52,9 @@ Master::Master()
 			f->run();
 		}
 		
-		
-		
-		if (i % 100000 == 0) {
-			std::cout << "Current Time Tick: " << state->getCurrentTick() << std::endl;
-			for (std::shared_ptr<Item> i : state->getItemsState()) {
-				std::cout << "Item Name: " << i->getName() << ", Amount: " << i->getAmount() << std::endl;
-			}
-			std::cout << "\n*------------------------------------*\n";
-		}
 	}
-	//
-	// std::ofstream o("test_out.json");
-    // o << std::setw(4) << this->myJsonFile << std::endl;
 	vector<string> event={"7"};
 	JsonParser::testFunction(event);
-
-	cout << "GOAL ACHIEVED : "<< state->isGoalItemAchieved();
-
 }
 
 Master::~Master()

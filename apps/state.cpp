@@ -3,14 +3,15 @@
 
 State* State::instance = 0;
 
-State::State() {
+State::State(std::string challengeName) {
     //Omar
 	std::string mainPath = Utils::getexepath();
-	std::cout<< "My path : " << mainPath;
 	std::string delimiter = "Factorio";
 	mainPath = mainPath.substr(0, mainPath.find(delimiter));
     mainPath+="Factorio";
-	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-1.json";
+	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/"+challengeName;//challenge-3.json";
+    // cout << "challengeName : " << challengeName << endl;
+    // cout << "challengePath : " << challengePath << endl;
 	Challenge challenge = JsonParser::readChallenge(challengePath);
 
     //Ahmed
@@ -33,9 +34,6 @@ State::State() {
 		for (Item i : r.getProducts()) {
 			if (r.getName().find("barrel") == std::string::npos || r.getName() ==  "empty-barrel") {
 				this->productRecipeMap[i.getName()].push_back(r.getName());
-			}
-			else {
-				cout << "barrel";
 			}
 		}
 	}
@@ -77,11 +75,15 @@ State::State() {
 }
 
 
-State* State::getInstance() {
+State* State::getInstance(std::string pathToChal) {
 	if (!instance) {
-		instance = new State();
+		instance = new State(pathToChal);
 	}
 	return instance;
+}
+
+State* State::getInstance(){
+    return instance;
 }
 
 

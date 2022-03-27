@@ -160,7 +160,7 @@ std::vector<Technology> JsonParser::readTechnology(string path)
 void JsonParser::testFunction(std::vector<string>& event) {
 	int cc = stoi(event[0]);
 	json static j;
-	std::ofstream file("test_out.json",std::ios_base::app);
+	// std::ofstream file("hello_out.json",std::ios_base::app);
 	switch (cc) {
 	case 1:
 		j.push_back(json{ {"type","build-factory-event"},{"timestamp",event[1]},{"factory-id",event[2]},{"factory-type", event[3]},{"factory-name", event[4]} });
@@ -183,6 +183,7 @@ void JsonParser::testFunction(std::vector<string>& event) {
 	case 7:
 		std::ofstream o("test_out.json");
     	o << std::setw(4) << j << std::endl;
+    	cout << std::setw(4) << j << std::endl;
 	//default:
 		// event type 4
 	}

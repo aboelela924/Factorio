@@ -30,7 +30,7 @@
 
 class Master : public Feedback {
 public:
-	Master();
+	Master(std::string challengeName);
 	~Master();
 	
 	

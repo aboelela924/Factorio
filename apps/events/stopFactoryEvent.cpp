@@ -7,7 +7,7 @@ StopFactoryEvent::StopFactoryEvent(double timestamp, int factoryId)
 	: FactoryEvent{ timestamp,  factoryId }{};
 
 void StopFactoryEvent::run() {
-	cout << "Start factory event with factory id: " << factoryId << ", timestamp: " << this->getTimestamp() << endl;
+	// cout << "Start factory event with factory id: " << factoryId << ", timestamp: " << this->getTimestamp() << endl;
 	vector<string> event={"4",to_string(this->getTimestamp()),to_string(factoryId)};
 	
 	JsonParser::testFunction(event);

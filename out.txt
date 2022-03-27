@@ -1,5 +1,0 @@
-My path : /home/omarninach/fau/factorio/Factorio/apps/factoriobarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelbarrelCurrent Time Tick: 0
-
-*------------------------------------*
-Start factory event with factory id: 0, timestamp: 60
-getGoalItems : coal:1

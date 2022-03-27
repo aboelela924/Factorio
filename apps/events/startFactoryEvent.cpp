@@ -9,15 +9,7 @@ StartFactoryEvent::StartFactoryEvent(Feedback* feedback, double timestamp, int f
 };
 
 void StartFactoryEvent::run() {
-	
-	// json j;
-    // j.push_back(json{ {"type","start-factory-event"},{"timestamp", this->getTimestamp()}, {"factory-id",factoryId},{"recipe",recipe}});
-	// std::ofstream outfile;
-    // outfile.open("test_out.json", std::ios_base::app);
-	// outfile << j;
 
-	// vector<string> event={"2",to_string(this->getTimestamp()),to_string(factoryId),recipe};
-	// JsonParser::testFunction(event);
 
 	const void * address = static_cast<const void*>(this);
 	std::stringstream ss;

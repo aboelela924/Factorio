@@ -1,1 +1,133 @@
-null
+[
+    {
+        "factory-id": "1",
+        "factory-name": "electric-mining-drill",
+        "factory-type": "",
+        "timestamp": "0.000000",
+        "type": "build-factory-event"
+    },
+    {
+        "factory-id": "2",
+        "factory-name": "assembling-machine-1",
+        "factory-type": "",
+        "timestamp": "0.000000",
+        "type": "build-factory-event"
+    },
+    {
+        "factory-id": "0",
+        "recipe": "copper-ore",
+        "timestamp": "0.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "1",
+        "recipe": "iron-ore",
+        "timestamp": "0.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "2",
+        "recipe": "iron-gear-wheel",
+        "timestamp": "0.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "3",
+        "factory-name": "electric-furnace",
+        "factory-type": "",
+        "timestamp": "61.000000",
+        "type": "build-factory-event"
+    },
+    {
+        "factory-id": "3",
+        "recipe": "copper-plate",
+        "timestamp": "61.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "4",
+        "factory-name": "electric-furnace",
+        "factory-type": "",
+        "timestamp": "121.000000",
+        "type": "build-factory-event"
+    },
+    {
+        "factory-id": "4",
+        "recipe": "iron-plate",
+        "timestamp": "121.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "5",
+        "factory-name": "assembling-machine-1",
+        "factory-type": "",
+        "timestamp": "158.000000",
+        "type": "build-factory-event"
+    },
+    {
+        "factory-id": "5",
+        "recipe": "automation-science-pack",
+        "timestamp": "158.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "0",
+        "timestamp": "6155.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "0",
+        "timestamp": "6155.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "3",
+        "timestamp": "9824.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "3",
+        "timestamp": "9824.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "2",
+        "timestamp": "23475.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "2",
+        "timestamp": "23475.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "1",
+        "timestamp": "24288.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "1",
+        "timestamp": "24288.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "4",
+        "timestamp": "24385.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "4",
+        "timestamp": "24385.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "5",
+        "timestamp": "60285.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "5",
+        "timestamp": "60285.000000",
+        "type": "destroy-factory-event"
+    }
+]

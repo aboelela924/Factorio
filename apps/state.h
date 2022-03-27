@@ -17,7 +17,7 @@ class State{
 private:
 	static State* instance;
 
-	State();
+	State(std::string challengeName);
 	State(const State& cc) {};
 	~State() {};
 
@@ -67,9 +67,11 @@ public:
 		[&goalItems](std::shared_ptr<Item> item){
 
 			if(item->getName()==goalItems[0].getName() && item->getAmount()>=goalItems[0].getAmount() ){
-			return true;
+				// cout <<"Goal achieved : Yes " << endl;
+				return true;
 			} else {
-			return false;
+				// cout <<"Goal achieved : No " << endl;
+				return false;
 		}	
 
 		});
@@ -147,6 +149,7 @@ public:
 	Factory getFactoryByName(std::string name);
 
 	static State* getInstance();
+	static State* getInstance(std::string pathToChal);
 	static void destory();
 
 };
