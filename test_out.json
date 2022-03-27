@@ -1,17 +1,15 @@
 [
     {
         "factory-id": "1",
-        "factory-name": "electric-mining-drill",
-        "factory-type": "",
+        "recipe": "",
         "timestamp": "0.000000",
-        "type": "build-factory-event"
+        "type": "start-factory-event"
     },
     {
         "factory-id": "2",
-        "factory-name": "assembling-machine-1",
-        "factory-type": "",
+        "recipe": "",
         "timestamp": "0.000000",
-        "type": "build-factory-event"
+        "type": "start-factory-event"
     },
     {
         "factory-id": "0",
@@ -33,10 +31,9 @@
     },
     {
         "factory-id": "3",
-        "factory-name": "electric-furnace",
-        "factory-type": "",
+        "recipe": "",
         "timestamp": "61.000000",
-        "type": "build-factory-event"
+        "type": "start-factory-event"
     },
     {
         "factory-id": "3",
@@ -46,10 +43,9 @@
     },
     {
         "factory-id": "4",
-        "factory-name": "electric-furnace",
-        "factory-type": "",
+        "recipe": "",
         "timestamp": "121.000000",
-        "type": "build-factory-event"
+        "type": "start-factory-event"
     },
     {
         "factory-id": "4",
@@ -59,10 +55,9 @@
     },
     {
         "factory-id": "5",
-        "factory-name": "assembling-machine-1",
-        "factory-type": "",
+        "recipe": "",
         "timestamp": "158.000000",
-        "type": "build-factory-event"
+        "type": "start-factory-event"
     },
     {
         "factory-id": "5",
@@ -72,62 +67,66 @@
     },
     {
         "factory-id": "0",
-        "timestamp": "6155.000000",
+        "timestamp": "6144.000000",
         "type": "stop-factory-event"
     },
     {
         "factory-id": "0",
-        "timestamp": "6155.000000",
+        "timestamp": "6144.000000",
         "type": "destroy-factory-event"
     },
     {
         "factory-id": "3",
-        "timestamp": "9824.000000",
+        "timestamp": "9799.000000",
         "type": "stop-factory-event"
     },
     {
         "factory-id": "3",
-        "timestamp": "9824.000000",
+        "timestamp": "9799.000000",
         "type": "destroy-factory-event"
     },
     {
         "factory-id": "2",
-        "timestamp": "23475.000000",
+        "timestamp": "22020.000000",
         "type": "stop-factory-event"
     },
     {
         "factory-id": "2",
-        "timestamp": "23475.000000",
-        "type": "destroy-factory-event"
-    },
-    {
-        "factory-id": "1",
-        "timestamp": "24288.000000",
-        "type": "stop-factory-event"
-    },
-    {
-        "factory-id": "1",
-        "timestamp": "24288.000000",
+        "timestamp": "22020.000000",
         "type": "destroy-factory-event"
     },
     {
         "factory-id": "4",
-        "timestamp": "24385.000000",
+        "timestamp": "22927.000000",
         "type": "stop-factory-event"
     },
     {
         "factory-id": "4",
-        "timestamp": "24385.000000",
+        "timestamp": "22927.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "1",
+        "timestamp": "24282.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "1",
+        "timestamp": "24282.000000",
         "type": "destroy-factory-event"
     },
     {
         "factory-id": "5",
-        "timestamp": "60285.000000",
+        "timestamp": "60273.000000",
         "type": "stop-factory-event"
     },
     {
         "factory-id": "5",
-        "timestamp": "60285.000000",
+        "timestamp": "60273.000000",
         "type": "destroy-factory-event"
+    },
+    {
+        "timestamp": "60273.000000",
+        "type": "victory-event"
     }
 ]

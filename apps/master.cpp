@@ -53,6 +53,14 @@ Master::Master(std::string challengeName)
 		}
 		
 	}
+
+	if(state->isGoalItemAchieved()){
+		VictoryEvent e = VictoryEvent(state->getCurrentTick());
+		e.run();
+	}
+
+	// vector<string> eventVictory={"6",to_string(state->getCurrentTick())};
+	// JsonParser::testFunction(eventVictory);
 	vector<string> event={"7"};
 	JsonParser::testFunction(event);
 }

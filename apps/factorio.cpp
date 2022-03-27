@@ -25,17 +25,6 @@ using json = nlohmann::json;
 int main(int argc, char** argv){
 	
     Master master = Master(argv[1]);
-    // string output;
-    // ifstream myfile;
-    // ofstream myfile2;
-
-    // string STRING;
-    // myfile.open ("test_out.json");
-
-
-    // myfile >> STRING;
-    // cout << STRING;
-    // myfile.close();
 
     return 0;
 

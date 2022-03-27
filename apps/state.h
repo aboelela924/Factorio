@@ -40,6 +40,8 @@ private:
 	std::vector<std::shared_ptr<Factory>> runningFactories;
 	
 	std::map<std::string, int> itemAmount;
+	std::map<std::string, int> factoryPerRecipe;
+
 	std::map<std::string, std::vector<std::string>> productRecipeMap;
 	std::map<std::string, std::vector<std::pair<std::string, int>>> itemIngredientMap;
 
@@ -89,6 +91,8 @@ public:
 	std::vector<Recipe>& getRecipePool();
 
 	
+	int getNumberOfFactoryForRecipe(std::string recipeName);
+
 	void moveFactory(int factoryId, 
 		std::vector<std::shared_ptr<Factory>>& from, 
 		std::vector<std::shared_ptr<Factory>>& to);
@@ -116,6 +120,8 @@ public:
 		std::vector<Technology>& smallTechnologyPool,
 		std::unordered_set<std::string>& usedRecipesNames,
 		std::unordered_set<std::string>& usedTechnologiesNames);
+
+	void calcFactoryPerRecipe();
 
 	Technology& getTechnologyForRecipe(std::string name);
 	int getItemAmount(std::string itemName);

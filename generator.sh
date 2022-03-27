@@ -1,1 +1,1 @@
-./apps/factorio $1
+./apps/factorio $2

@@ -162,9 +162,17 @@ void JsonParser::testFunction(std::vector<string>& event) {
 	json static j;
 	// std::ofstream file("hello_out.json",std::ios_base::app);
 	switch (cc) {
-	case 1:
-		j.push_back(json{ {"type","build-factory-event"},{"timestamp",event[1]},{"factory-id",event[2]},{"factory-type", event[3]},{"factory-name", event[4]} });
-		break;
+	case 1:    // string output;
+    // ifstream myfile;
+    // ofstream myfile2;
+
+    // string STRING;
+    // myfile.open ("test_out.json");
+
+
+    // myfile >> STRING;
+    // cout << STRING;
+    // myfile.close();
 	case 2:
 		j.push_back(json{ {"type","start-factory-event"},{"timestamp", event[1]}, {"factory-id",event[2]},{"recipe",event[3]}});
 		break;
@@ -179,6 +187,7 @@ void JsonParser::testFunction(std::vector<string>& event) {
 		break;
 	case 6:
 		j.push_back(json{{"type","victory-event"},{"timestamp", event[1]} });
+		cout << "calling victory" <<endl;
 		break;
 	case 7:
 		std::ofstream o("test_out.json");
