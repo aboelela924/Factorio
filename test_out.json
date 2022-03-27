@@ -67,66 +67,66 @@
     },
     {
         "factory-id": "0",
-        "timestamp": "6156.000000",
+        "timestamp": "6257.000000",
         "type": "stop-factory-event"
     },
     {
         "factory-id": "0",
-        "timestamp": "6156.000000",
+        "timestamp": "6257.000000",
         "type": "destroy-factory-event"
     },
     {
         "factory-id": "3",
-        "timestamp": "9835.000000",
+        "timestamp": "9909.000000",
         "type": "stop-factory-event"
     },
     {
         "factory-id": "3",
-        "timestamp": "9835.000000",
+        "timestamp": "9909.000000",
         "type": "destroy-factory-event"
     },
     {
         "factory-id": "2",
-        "timestamp": "23502.000000",
+        "timestamp": "23157.000000",
         "type": "stop-factory-event"
     },
     {
         "factory-id": "2",
-        "timestamp": "23502.000000",
-        "type": "destroy-factory-event"
-    },
-    {
-        "factory-id": "1",
-        "timestamp": "24312.000000",
-        "type": "stop-factory-event"
-    },
-    {
-        "factory-id": "1",
-        "timestamp": "24312.000000",
+        "timestamp": "23157.000000",
         "type": "destroy-factory-event"
     },
     {
         "factory-id": "4",
-        "timestamp": "24409.000000",
+        "timestamp": "24071.000000",
         "type": "stop-factory-event"
     },
     {
         "factory-id": "4",
-        "timestamp": "24409.000000",
+        "timestamp": "24071.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "1",
+        "timestamp": "24337.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "1",
+        "timestamp": "24337.000000",
         "type": "destroy-factory-event"
     },
     {
         "factory-id": "5",
-        "timestamp": "60294.000000",
+        "timestamp": "60318.000000",
         "type": "stop-factory-event"
     },
     {
         "factory-id": "5",
-        "timestamp": "60294.000000",
+        "timestamp": "60318.000000",
         "type": "destroy-factory-event"
     },
     {
-        "timestamp": "60294.000000",
+        "timestamp": "60318.000000",
         "type": "victory-event"
     }
 ]

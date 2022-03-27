@@ -187,7 +187,6 @@ void JsonParser::testFunction(std::vector<string>& event) {
 		break;
 	case 6:
 		j.push_back(json{{"type","victory-event"},{"timestamp", event[1]} });
-		cout << "calling victory" <<endl;
 		break;
 	case 7:
 		std::ofstream o("test_out.json");
