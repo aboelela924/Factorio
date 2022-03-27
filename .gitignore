@@ -1,6 +1,7 @@
 build/
 out/
 .vs/
+.vscode/
 
 # Compiled Object files
 **/.DS_Store
@@ -8,6 +9,8 @@ out/
 *.lo
 *.o
 *.obj
+#factorio
+factorio
 
 # Precompiled Headers
 *.gch

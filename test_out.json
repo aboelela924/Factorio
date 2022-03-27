@@ -1,0 +1,132 @@
+[
+    {
+        "factory-id": "1",
+        "recipe": "",
+        "timestamp": "0.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "2",
+        "recipe": "",
+        "timestamp": "0.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "0",
+        "recipe": "copper-ore",
+        "timestamp": "0.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "1",
+        "recipe": "iron-ore",
+        "timestamp": "0.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "2",
+        "recipe": "iron-gear-wheel",
+        "timestamp": "0.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "3",
+        "recipe": "",
+        "timestamp": "61.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "3",
+        "recipe": "copper-plate",
+        "timestamp": "61.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "4",
+        "recipe": "",
+        "timestamp": "121.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "4",
+        "recipe": "iron-plate",
+        "timestamp": "121.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "5",
+        "recipe": "",
+        "timestamp": "158.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "5",
+        "recipe": "automation-science-pack",
+        "timestamp": "158.000000",
+        "type": "start-factory-event"
+    },
+    {
+        "factory-id": "0",
+        "timestamp": "6156.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "0",
+        "timestamp": "6156.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "3",
+        "timestamp": "9835.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "3",
+        "timestamp": "9835.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "2",
+        "timestamp": "23502.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "2",
+        "timestamp": "23502.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "1",
+        "timestamp": "24312.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "1",
+        "timestamp": "24312.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "4",
+        "timestamp": "24409.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "4",
+        "timestamp": "24409.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "factory-id": "5",
+        "timestamp": "60294.000000",
+        "type": "stop-factory-event"
+    },
+    {
+        "factory-id": "5",
+        "timestamp": "60294.000000",
+        "type": "destroy-factory-event"
+    },
+    {
+        "timestamp": "60294.000000",
+        "type": "victory-event"
+    }
+]
