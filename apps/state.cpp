@@ -9,8 +9,9 @@ State::State(std::string challengeName) {
 	std::string delimiter = "Factorio";
 	mainPath = mainPath.substr(0, mainPath.find(delimiter));
     mainPath+="Factorio";
-	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/"+challengeName;//challenge-3.json";
-    // cout << "challengeName : " << challengeName << endl;
+	std::string challengePath = mainPath + challengeName;//"/data/factorio-simulator/inputs/"+challengeName;//challenge-3.json";
+    std::cout << "challengeName : " << challengeName << std::endl;
+    std::cout << "mainPath : " << mainPath << std::endl;
     // cout << "challengePath : " << challengePath << endl;
 	Challenge challenge = JsonParser::readChallenge(challengePath);
 
