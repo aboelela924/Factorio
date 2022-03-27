@@ -7,7 +7,7 @@ Master::Master()
 {
 	std::vector<Event> events;
 	state = State::getInstance();
-	for (int i = 0; i < 100000; ++i) { //100000
+	for (int i = 0; i < 20000000; ++i) { //100000
 		std::vector<Recipe> recipes = this->getNewRecipes(state->getPossibleRecipes());
 		// always recipes.size() is null ! is this normal ?
 		
@@ -37,8 +37,6 @@ Master::Master()
 		json j;
 		for (std::shared_ptr<BuildFactoryEvent> f : this->buildFactoryEvents) {
 			f->run();
-			// f->to_json(j);
-
 		}
 		this->buildFactoryEvents.clear();
 		
@@ -77,12 +75,25 @@ Master::~Master()
 std::vector<Recipe> Master::getNewRecipes(const std::vector<Recipe>& recipes)
 {
 	std::vector<Recipe> allowableRecipes;
-	for (Recipe r : recipes) {
+	/*for (Recipe r : recipes) {
 		if (!this->usedRecipes.contains(r)) {
 			this->usedRecipes.insert(r);
 			allowableRecipes.push_back(r);
 		}
+	}*/
+
+	for (Recipe r : recipes) {
+		auto it = this->currentFactoryPerRecipe.find(r.getName());
+		if (it == this->currentFactoryPerRecipe.end()) {
+			this->currentFactoryPerRecipe[r.getName()] = 1;
+			allowableRecipes.push_back(r);
+		}
+		else if (it->second < state->getNumberOfFactoryForRecipe(r.getName())) {
+			this->currentFactoryPerRecipe[r.getName()] += 1;
+			allowableRecipes.push_back(r);
+		}
 	}
+
 	return allowableRecipes;
 }
 
@@ -341,8 +352,11 @@ void Master::checkForFactoryToStop(FactoryEvent* e)
 
 		StopFactoryEvent stopFactory = StopFactoryEvent(state->getCurrentTick(), e->getFactoryId());
 		stopFactory.run();
-		DestoryFactoryEvent destoryFactory = DestoryFactoryEvent(state->getCurrentTick(), e->getFactoryId());
-		destoryFactory.run();
+		if (e->getFactoryId() != 0) {
+			DestoryFactoryEvent destoryFactory = DestoryFactoryEvent(state->getCurrentTick(), e->getFactoryId());
+			destoryFactory.run();
+		}
+		
 
 	}
 

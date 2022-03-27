@@ -18,7 +18,7 @@ State::State() {
 	std::string delimiter = "out";
 	mainPath = mainPath.substr(0, mainPath.find(delimiter));
 
-	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-3.json";
+	std::string challengePath = mainPath + "/data/factorio-simulator/inputs/challenge-5.json";
 	Challenge challenge = JsonParser::readChallenge(challengePath);
     //------------------
 
@@ -47,6 +47,7 @@ State::State() {
 	this->technologiesPool = JsonParser::readTechnology(technologiesPath);
 
 	this->backtrackRecipesForGoalItem(challenge, recipesPath, technologiesPath);
+	this->calcFactoryPerRecipe();
 
 	for (Item item : challenge.getInitialItems()) {
 		this->itemsState.push_back(std::shared_ptr<Item>(new Item(item)));
@@ -253,13 +254,50 @@ void State::technologyPrerequisites(Technology& t,
 	if (usedTechnologiesNames.find(t.getName()) == usedTechnologiesNames.end() && !t.getName().empty()) {
 		smallTechnologyPool.push_back(t);
 		usedTechnologiesNames.insert(t.getName());
+
+		for (std::string ingTechName : t.getPrerequisites()) {
+			Technology& ingTech = this->getTechnologyByName(ingTechName);
+			technologyPrerequisites(ingTech,
+				smallRecipePool, smallTechnologyPool, usedRecipesNames, usedTechnologiesNames);
+		}
 	}
 
 
-	for (std::string ingTechName : t.getPrerequisites()) {
-		Technology& ingTech = this->getTechnologyByName(ingTechName);
-		technologyPrerequisites(ingTech,
-			smallRecipePool, smallTechnologyPool, usedRecipesNames, usedTechnologiesNames);
+	
+
+}
+
+void State::calcFactoryPerRecipe()
+{
+
+	for (Recipe rOut : this->recipesPool ) {
+
+		for (Item iOut : rOut.getProducts()) {
+			for (Recipe rIng : this->recipesPool) {
+				for (Item iIng : rIng.getIngredients()) {
+					if (iOut.getName() == iIng.getName()) {
+						auto it = factoryPerRecipe.find(rOut.getName());
+						if (it == factoryPerRecipe.end()) {
+							factoryPerRecipe[rOut.getName()] = 1;
+						}
+						else {
+							factoryPerRecipe[rOut.getName()] += 1;
+						}
+					}
+				}
+			}
+		}
+
+		/*std::vector<Item>& ings = r.getIngredients();
+		for (Item i : ings) {
+			Recipe r = this->getRecipeForItem(i.getName());
+			auto it = factoryPerRecipe.find(r.getName());
+			if (it == factoryPerRecipe.end()) {
+				factoryPerRecipe[r.getName()] = 1;
+			}else{
+				factoryPerRecipe[r.getName()] += 1;
+			}
+		}*/
 	}
 
 }
@@ -427,6 +465,12 @@ void State::deleteFactoryById(int id, std::vector<std::shared_ptr<Factory>>& fro
 void State::addStarvedFactory(std::shared_ptr<Factory> f)
 {
 	this->starvedFactories.push_back(f);
+}
+int State::getNumberOfFactoryForRecipe(std::string recipeName)
+{
+	 
+
+	return this->factoryPerRecipe[recipeName];
 }
 /*void State::moveToRunningFactoryById(int id)
 {

@@ -70,6 +70,8 @@ private:
 	};
 	std::unordered_set<Recipe, MyHashFunction> usedRecipes;
 	
+	std::map<std::string, int> currentFactoryPerRecipe;
+
 	std::unordered_set<std::string> usedTechnologies;
 	void createResearchEventForTechnology(Technology& t);
 
